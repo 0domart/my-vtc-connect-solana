@@ -11,7 +11,14 @@
         
         let sol_rpc = process.env.SOLANA_RPC? process.env.SOLANA_RPC : "https://api.mainnet-beta.solana.com";
         cnx = new web3.Connection(sol_rpc);
-        
+        const urlParams = new URLSearchParams(window.location.search);
+        const bg = urlParams.get('bg');
+        const title = urlParams.get('title');
+        console.log("bg", bg);
+        console.log("title", title);
+        if(bg != null){
+            document.body.style.backgroundColor = bg;
+        }        
     })
 
     async function createStore() {
