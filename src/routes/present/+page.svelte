@@ -20,6 +20,9 @@
     let svg_container;
     let txnConfirmed = false
     let duration = 5000
+    let timeout1: string | number | NodeJS.Timeout | undefined;
+    let timeout2: string | number | NodeJS.Timeout | undefined;
+    let timeout3: string | number | NodeJS.Timeout | undefined;
     let interval: string | number | NodeJS.Timeout | undefined;
     //const element = document.getElementById('qr-code');
 
@@ -60,25 +63,25 @@
            
         }
         
-            setTimeout(() => {
-            clearInterval(interval);
-            duration = 15000;
-            startInterval();
-            }, 120000);
+        timeout1 = setTimeout(() => {
+        clearInterval(interval);
+        duration = 15000;
+        startInterval();
+        }, 120000);
 
-            setTimeout(() => {
-            clearInterval(interval);
-            duration = 30000;
-            startInterval();
-            }, 300000);
+        timeout2 = setTimeout(() => {
+        clearInterval(interval);
+        duration = 30000;
+        startInterval();
+        }, 300000);
 
-            setTimeout(() => {
-            clearInterval(interval);
-            duration = 60000;
-            startInterval();
-            }, 1000000);
+        timeout3 = setTimeout(() => {
+        clearInterval(interval);
+        duration = 60000;
+        startInterval();
+        }, 1000000);
 
-            startInterval();
+        startInterval();
        
         //qrCode2 =decodeURIComponent(qrCode.toString()).replace('data:image/svg+xml,', '')
         
@@ -93,7 +96,30 @@
     }
 
     function refresh(){
-        checkTransactionDone()
+
+        checkTransactionDone();
+        
+        clearTimeout(timeout1);
+        clearTimeout(timeout2);
+        clearTimeout(timeout3);
+
+        timeout1 = setTimeout(() => {
+        clearInterval(interval);
+        duration = 15000;
+        startInterval();
+        }, 120000);
+
+        timeout2 = setTimeout(() => {
+        clearInterval(interval);
+        duration = 30000;
+        startInterval();
+        }, 300000);
+
+        timeout3 = setTimeout(() => {
+        clearInterval(interval);
+        duration = 60000;
+        startInterval();
+        }, 1000000);
     }
 
     function startInterval() {
@@ -101,6 +127,9 @@
                 checkTransactionDone()
             }, duration)
             return () => {
+                clearTimeout(timeout1);
+                clearTimeout(timeout2);
+                clearTimeout(timeout3);
                 clearInterval(interval)
             }
         }
