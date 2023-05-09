@@ -9,7 +9,17 @@
     let invalidKey = false;
 
     onMount(async () => {
-        
+        let publicKeyStore = localStorage.getItem('publicKey');
+        let storeNameStore = localStorage.getItem('storeName');
+
+        if (publicKeyStore !== null) {
+            publicKey.set(publicKeyStore);
+        }
+
+        if (storeNameStore !== null) {
+            storeName.set(storeNameStore);
+        }
+
         let sol_rpc = process.env.SOLANA_RPC? process.env.SOLANA_RPC : "https://api.mainnet-beta.solana.com";
         cnx = new web3.Connection(sol_rpc);     
     })
@@ -19,8 +29,9 @@
             $publicKey = $publicKey.trim()            
             if (web3.PublicKey.isOnCurve($publicKey) == true) {
                 invalidKey = false;
+                localStorage.setItem('publicKey', $publicKey); // Store publicKey in localStorage
+                localStorage.setItem('storeName', $storeName); // Store storeName in localStorage
                 goto('/store', { state: { foo: 'bar' } });
-                
             }
             else {
                 invalidKey = true
@@ -28,7 +39,6 @@
         } catch(e) {
             invalidKey = true;
         }
-        
     }
 
 </script>

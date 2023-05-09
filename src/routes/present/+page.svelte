@@ -19,17 +19,18 @@
     let qrRef = null
     let svg_container;
     let txnConfirmed = false
+    let duration = 5000
+    let interval: string | number | NodeJS.Timeout | undefined;
     //const element = document.getElementById('qr-code');
-  
 
-    let sol_rpc = process.env.SOLANA_RPC? process.env.SOLANA_RPC : "https://api.mainnet-beta.solana.com";
+    let sol_rpc = process.env.SOLANA_RPC? process.env.SOLANA_RPC : "https://solana-mainnet.g.alchemy.com/v2/WGBoK0YbGQZUASSAYCbCb1MNvP_oUwIu";
     let connection = new web3.Connection(sol_rpc);
     let currentMint = $mints.filter(item => item.name == $selectedMint)
     let splToken = new web3.PublicKey(currentMint[0].mint);
     const reference = web3.Keypair.generate().publicKey;
-    let storeText = $storeName? $storeName : "store"
-    const label = 'Payment to ' + storeText
-    const message = 'Thank you for your payment!';
+    let storeText = $storeName? $storeName : "Boutique"
+    const label = 'Payement à ' + storeText
+    const message = 'Merci pour votre payement!';
     const memo = 'rippy.xyz';
 
     const unique = (value, index, self) => {
@@ -39,7 +40,7 @@
     onMount(async () => {
         console.log("mint", currentMint[0].mint)
         let recipient = new web3.PublicKey($publicKey)
-        
+
         let amount = new BigNumber($pmtAmt);
         let url = ($publicKey) ? encodeURL({ recipient, amount, splToken, reference, label, message, memo }) : null;
         
@@ -59,8 +60,53 @@
            
         }
         
-        const interval = setInterval(async () => {
-            try {
+            setTimeout(() => {
+            clearInterval(interval);
+            duration = 15000;
+            startInterval();
+            }, 120000);
+
+            setTimeout(() => {
+            clearInterval(interval);
+            duration = 30000;
+            startInterval();
+            }, 300000);
+
+            setTimeout(() => {
+            clearInterval(interval);
+            duration = 60000;
+            startInterval();
+            }, 1000000);
+
+            startInterval();
+       
+        //qrCode2 =decodeURIComponent(qrCode.toString()).replace('data:image/svg+xml,', '')
+        
+    })
+    onDestroy(async ()=> {
+        //document.body.setAttribute('tabindex', '-1');
+       // <img src={qrCode._qr.createDataURL()}/>
+      // <svg width=512 height=512 viewBox="-1 -1 2 2" bind:this={qrCode}/>
+    })
+    async function cancel() {
+        goto('/store', { state: { foo: 'bar' } });
+    }
+
+    function refresh(){
+        checkTransactionDone()
+    }
+
+    function startInterval() {
+        interval = setInterval(async () => {
+                checkTransactionDone()
+            }, duration)
+            return () => {
+                clearInterval(interval)
+            }
+        }
+
+    async function checkTransactionDone(){
+        try {
                 // Check if there is any transaction for the reference
                 let untilTxn = undefined
                 if ($mostRecentTxn != "") {
@@ -103,21 +149,6 @@
                 }
                 console.error('Unknown error', e)
             }
-            }, 250)
-            return () => {
-                clearInterval(interval)
-            }
-       
-        //qrCode2 =decodeURIComponent(qrCode.toString()).replace('data:image/svg+xml,', '')
-        
-    })
-    onDestroy(async ()=> {
-        //document.body.setAttribute('tabindex', '-1');
-       // <img src={qrCode._qr.createDataURL()}/>
-      // <svg width=512 height=512 viewBox="-1 -1 2 2" bind:this={qrCode}/>
-    })
-    async function cancel() {
-        goto('/store', { state: { foo: 'bar' } });
     }
 
 </script>
@@ -158,6 +189,12 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
               </svg>
             <span class="pl-2">{txnConfirmed? "Return" : "Cancel"}</span></button>
+        </div>
+        <div class="">
+            <button on:click={refresh} class="btn normal-case btn-lg bg-gradient-to-br border-accent hover:border-accent from-[#20BF55] to-[#01BAEF]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 ">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+              </svg>
+            <span class="pl-2">{txnConfirmed? "Return" : "Refresh"}</span></button>
         </div>
     </div>
 

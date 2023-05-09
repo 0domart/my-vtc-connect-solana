@@ -8,14 +8,9 @@
     onMount(async () => {
         
         let sol_rpc = process.env.SOLANA_RPC? process.env.SOLANA_RPC : "https://api.mainnet-beta.solana.com";
-        cnx = new web3.Connection(sol_rpc);
+        cnx = new web3.Connection(sol_rpc);       
        
     })
-
-    async function createStore() {
-    console.log($storeName, $publicKey)
-    
-    }
 
 </script>
 
