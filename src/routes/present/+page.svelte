@@ -44,7 +44,7 @@
         let url = ($publicKey) ? encodeURL({ recipient, amount, splToken, reference, label, message, memo }) : null;
         
         try {
-            qrCode = createQR(url, 360, 'transparent')
+            qrCode = createQR(url, 360, 'white')
            // qrCode2 = qrCode._svg.innerHTML
             const element = document.getElementById('qr-code');
             qrCode.append(element);
