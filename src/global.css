@@ -1,0 +1,11 @@
+:root {
+    --primary-color: #d1ca01;
+    --secondary-color: #f2f3f3;
+    --background-color: #242424;
+    --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  
+body {
+  color:white;
+}

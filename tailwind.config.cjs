@@ -7,7 +7,7 @@ module.exports = {
         greycliffbold: ['GreycliffCF-Bold'] ,
         greycliffmed: ['GreycliffCF-Medium'] ,
         greycliffreg: ['GreycliffCF-Regular'] ,
-      }
+      },
     }
   },
   plugins: [require("daisyui")],

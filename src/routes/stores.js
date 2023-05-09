@@ -9,6 +9,11 @@ export const fullScreen = writable(false);
 export let successArray = writable([]);
 export const mints = writable([
     {name:"USDC", mint:"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"},
-    {name:"SOL", mint:"So11111111111111111111111111111111111111111"}, 
-    {name:"BONK", mint:"DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263"}])
+    {name:"SOL", mint:"So11111111111111111111111111111111111111111"},
+    {name:"MVC", mint:"AFd3p9mwTS9MxLcByyDAs6h4HBepY3n8vBDHvrMorrmK"},
+    {name:"BONK", mint:"DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263"},
+    {name:"RAIN", mint:"rainH85N1vCoerCi4cQ3w6mCf7oYUdrsTFtFzpaRwjL"},
+    {name:"DUST", mint:"DUSTawucrTsGU8hcqRdHDCbuYhCPADMLM2VcCb8VnFnQ"},
+    {name:"FOXY", mint:"FoXyMu5xwXre7zEoSvzViRk3nGawHUp9kUh97y2NDhcq"},
+])
 export const selectedMint = writable("USDC");

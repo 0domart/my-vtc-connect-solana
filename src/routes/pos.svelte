@@ -20,7 +20,6 @@
 </script>
 
 <div class="grid grid-flow-row justify-center">
-    
     <h1 class="sm:pt-3 pt-1 font-greycliffbold text-4xl text-center text-[#0D7071] ">
         $storeName</h1>
   

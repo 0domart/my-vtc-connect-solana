@@ -7,7 +7,10 @@
     import Keyboard from "svelte-keyboard";
     import bonkLogo from "../../lib/images/BonkLogo.png"
     import solLogo from "../../lib/images/solanaLogoMark.png"
-    
+    import dustLogo from "../../lib/images/dustLogo.jpg"
+    import mvcLogo from "../../lib/images/mvcLogo.jpg"
+    import rainLogo from "../../lib/images/rainLogo.png"
+    import foxyLogo from "../../lib/images/foxyLogo.webp"
 
     const keys = [  { row: 0, value: "1"}, { row: 0, value: "2"}, { row: 0, value: "3"}, 
                     { row: 1, value: "4"}, { row: 1, value: "5"}, { row: 1, value: "6"},
@@ -95,10 +98,18 @@
             <path d="M787.5 1595.83c-325-116.66-491.67-479.16-370.83-800 62.5-175 200-308.33 370.83-370.83 16.67-8.33 25-20.83 25-41.67V325c0-16.67-8.33-29.17-25-33.33-4.17 0-12.5 0-16.67 4.16-395.83 125-612.5 545.84-487.5 941.67 75 233.33 254.17 412.5 487.5 487.5 16.67 8.33 33.34 0 37.5-16.67 4.17-4.16 4.17-8.33 4.17-16.66v-58.34c0-12.5-12.5-29.16-25-37.5zM1229.17 295.83c-16.67-8.33-33.34 0-37.5 16.67-4.17 4.17-4.17 8.33-4.17 16.67v58.33c0 16.67 12.5 33.33 25 41.67 325 116.66 491.67 479.16 370.83 800-62.5 175-200 308.33-370.83 370.83-16.67 8.33-25 20.83-25 41.67V1700c0 16.67 8.33 29.17 25 33.33 4.17 0 12.5 0 16.67-4.16 395.83-125 612.5-545.84 487.5-941.67-75-237.5-258.34-416.67-487.5-491.67z" fill="#fff"/>
           </svg>
          
-          {:else if $selectedMint == "SOL"}
-          <img src={solLogo} class="w-10 inline align-top" />
-          {:else if $selectedMint == "BONK"}
+        {:else if $selectedMint == "SOL"}
+            <img src={solLogo} class="w-10 inline align-top" />
+        {:else if $selectedMint == "BONK"}
             <img src={bonkLogo} class="w-10 inline align-top" />
+        {:else if $selectedMint == "MVC"}
+            <img src={mvcLogo} class="w-10 inline align-top" />
+        {:else if $selectedMint == "RAIN"}
+            <img src={rainLogo} class="w-10 inline align-top" />
+        {:else if $selectedMint == "DUST"}
+            <img src={dustLogo} class="w-10 inline align-top" />
+        {:else if $selectedMint == "FOXY"}
+            <img src={foxyLogo} class="w-10 inline align-top" />
           {/if}
         <input bind:value={$pmtAmt} class="w-48 justify-end text-right pr-2 text-xl border border-4 border-accent hover:border-accent from-[#20BF55] to-[#01BAEF] pt-1 rounded-lg text-center " placeholder="Enter {$selectedMint} amount" />
     </div>
