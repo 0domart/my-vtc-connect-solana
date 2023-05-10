@@ -25,15 +25,15 @@
     
 </script>
 
-<div class=" card bg-base-200">
+<div class="card bg-[var(--secondary-color)] border">
         
-    <div class="overflow-x-auto">
-        <table class="table table-compact w-full ">
+    <div class="overflow-x-auto text-[var(--background-color)]">
+        <table class="table table-compact w-full min-h-[200px]">
           <thead>
             <tr>
               <th>Date</th> 
               <th class="text-left">Tx ID</th> 
-              <th class="text-right">Amount</th> 
+              <th class="text-right">Montant</th> 
             </tr>
           </thead> 
           <tbody>
@@ -47,6 +47,11 @@
               <td class="text-right">{item.uiAmount}</td> 
             </tr>
             {/each}
+            {#if $successArray.length === 0}
+            <tr>
+              <td colspan="3" class="text-center">Pas de transaction pour le moment</td>
+            </tr>
+            {/if}
           </tbody> 
 
         </table>
