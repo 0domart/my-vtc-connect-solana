@@ -81,9 +81,9 @@ async function goPay() {
     let amount = 1 //Number(urlParams.get('montant'));
     let token = "USDC"//urlParams.get('token');
     console.log("amount", amount);
-    let currentMint = $mints.filter(item => item.name == token)
+    let currentMint = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"//$mints.filter(item => item.name == token)
     console.log("currentMint", currentMint);
-    let splToken = new web3.PublicKey(currentMint[0].mint);
+    let splToken = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"//new web3.PublicKey(currentMint[0].mint);
 
     let url2 = "solana:"
         + walletAddress
