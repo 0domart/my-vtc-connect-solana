@@ -50,11 +50,13 @@ let interval: string | number | NodeJS.Timeout | undefined;
 let sol_rpc = process.env.SOLANA_RPC ? process.env.SOLANA_RPC : "https://solana-mainnet.g.alchemy.com/v2/WGBoK0YbGQZUASSAYCbCb1MNvP_oUwIu";
 let connection = new web3.Connection(sol_rpc);
 let currentMint = $mints.filter(item => item.name == $selectedMint)
+console.log("currentMint", currentMint);
 let splToken = new web3.PublicKey(currentMint[0].mint);
+console.log("splToken",splToken);
 const reference = web3.Keypair.generate().publicKey;
 let storeText = $storeName ? $storeName : "Boutique"
-const label = 'Payement à ' + storeText
-const message = 'Merci pour votre payement!';
+let label = 'Payement à ' + storeText
+const message = 'Merci pour votre payement !';
 const memo = 'solana.pay';
 
 const unique = (value, index, self) => {
@@ -65,6 +67,9 @@ onMount(async () => {
 
     let publicKeyStore = localStorage.getItem('publicKey');
     let storeNameStore = localStorage.getItem('storeName');
+    let successArrayStore = localStorage.getItem('successArray');
+    let mostRecentTxnStore = localStorage.getItem('mostRecentTxn');
+    
 
     if (publicKeyStore !== null) {
         publicKey.set(publicKeyStore);
@@ -72,12 +77,34 @@ onMount(async () => {
 
     if (storeNameStore !== null) {
         storeName.set(storeNameStore);
+        storeText = storeNameStore;
+        label = 'Payement à ' + storeText;
+    }
+
+    if (successArrayStore !== null) {
+        successArray.set(JSON.parse(successArrayStore));
+    }
+
+    if (mostRecentTxnStore !== null) {
+        mostRecentTxn.set(mostRecentTxnStore);
     }
 
     let recipient = new web3.PublicKey($publicKey)
 
     let amount = new BigNumber($pmtAmt);
-    let url = ($publicKey) ? encodeURL({
+    let url = null;
+    if(currentMint[0].name == "SOL"){
+        url = ($publicKey) ? encodeURL({
+        recipient,
+        amount,
+        reference,
+        label,
+        message,
+        memo
+    }) : null;
+    }
+    else {
+        url = ($publicKey) ? encodeURL({
         recipient,
         amount,
         splToken,
@@ -86,6 +113,7 @@ onMount(async () => {
         message,
         memo
     }) : null;
+    }
 
     try {
         qrCode = createQR(url, 360, 'white')
@@ -104,7 +132,7 @@ onMount(async () => {
 
     timeout1 = setTimeout(() => {
         clearInterval(interval);
-        duration = 15000;
+        duration = 20000;
         startInterval();
     }, 120000);
 
@@ -115,9 +143,10 @@ onMount(async () => {
     }, 300000);
 
     timeout3 = setTimeout(() => {
-        clearInterval(interval);
-        duration = 60000;
-        startInterval();
+        clearTimeout(timeout1);
+        clearTimeout(timeout2);
+        clearTimeout(timeout3);
+        clearInterval(interval)
     }, 1000000);
 
     startInterval();
@@ -131,7 +160,7 @@ onDestroy(async () => {
     // <svg width=512 height=512 viewBox="-1 -1 2 2" bind:this={qrCode}/>
 })
 async function cancel() {
-    goto('/store', {
+    goto('solana:G6CQw1w5FkcmMCSxf4NNZYLRXMbx355d5pZXqrcsdiZV?amount=0.01&spl-token=AFd3p9mwTS9MxLcByyDAs6h4HBepY3n8vBDHvrMorrmK&reference=H2Z2RaBUdcWYViRmgTozrKT71U4ibQwAztuPBcUAaA1g&label=Payement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+payement+%21', {
         state: {
             foo: 'bar'
         }
@@ -154,13 +183,13 @@ function refresh() {
 
     timeout2 = setTimeout(() => {
         clearInterval(interval);
-        duration = 30000;
+        duration = 100000;
         startInterval();
     }, 300000);
 
     timeout3 = setTimeout(() => {
         clearInterval(interval);
-        duration = 60000;
+        duration = 200000;
         startInterval();
     }, 1000000);
 }
@@ -188,27 +217,34 @@ async function checkTransactionDone() {
             until: untilTxn
         });
         if (signatureInfo.confirmationStatus == "finalized" || signatureInfo.confirmationStatus == "confirmed") {
+            console.log("Transaction confirmée !");
             txnConfirmed = true
             let confirmedTxn = await connection.getParsedTransaction(signatureInfo.signature)
             if (confirmedTxn) {
+                let token = localStorage.getItem("selectedMint");
                 var new_entry = {
                     "timestamp": confirmedTxn.blockTime,
                     "txid": confirmedTxn.transaction.signatures[0],
-                    "uiAmount": confirmedTxn.transaction.message.instructions[1].parsed.info.tokenAmount.uiAmount
+                    "uiAmount": confirmedTxn.transaction.message.instructions[1].parsed.info.tokenAmount.uiAmount,
+                    "uiToken": token ? token : ''
                 }
                 //item.transaction.message.accountKeys.flatMap(k => k.pubkey.toBase58())
                 if (!$successArray.flatMap(k => k.txid).includes(new_entry.txid)) {
                     $successArray.push(new_entry)
                 }
-
             }
 
-            console.log('Transaction ', confirmedTxn);
-            console.log('Array', $successArray);
             $successArray = $successArray.filter(unique)
             $successArray = $successArray
-            console.log('Transaction confirmed', signatureInfo);
             $mostRecentTxn = signatureInfo.signature;
+
+            localStorage.setItem('successArray', JSON.stringify($successArray)); // Store successArray in localStorage
+            localStorage.setItem('mostRecentTxn', $mostRecentTxn); // Store mostRecentTxn in localStorage
+
+            clearTimeout(timeout1);
+            clearTimeout(timeout2);
+            clearTimeout(timeout3);
+            clearInterval(interval)
 
             return
         }
@@ -247,12 +283,12 @@ async function checkTransactionDone() {
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                Transaction validée ! Merci</span>
+                                Transaction validée ! Merci pour votre payement</span>
                             {/if}
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-flow-row justify-center pt-4 pb-6">
+                <div class="grid grid-flow-row justify-center pt-4 pb-16">
                     <div class="indicator justify-items-center place-self-center gap-10">
                         <div class="">
                             <button on:click={cancel} class="btn normal-case btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 ">
@@ -265,7 +301,7 @@ async function checkTransactionDone() {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v4m0 0v4m0-4h4m-4 0H8" />
                                 <path d="M20.25 12C19.561 6.927 15.073 3 10 3S.438 6.927.75 12H3m2 0h4m4 0h4M3 12h1m1 0h4m4 0h1M9 16l2 2 2-2M12 2v4" />
                             </svg>
-                            <span class="pl-2">{txnConfirmed? "Retour" : "Rafraîchir"}</span></button>
+                            <span class="pl-2">{txnConfirmed? "Retour" : "Rafraîchir la transaction"}</span></button>
                         </div>
                     </div>
                 </div>
