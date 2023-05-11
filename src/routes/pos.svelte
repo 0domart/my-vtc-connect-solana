@@ -7,7 +7,7 @@
 
     onMount(async () => {
         
-        let sol_rpc = process.env.SOLANA_RPC? process.env.SOLANA_RPC : "https://api.mainnet-beta.solana.com";
+        let sol_rpc = process.env.SOLANA_RPC? process.env.SOLANA_RPC : "https://solana-mainnet.g.alchemy.com/v2/WGBoK0YbGQZUASSAYCbCb1MNvP_oUwIu";
         cnx = new web3.Connection(sol_rpc);       
        
     })
@@ -16,13 +16,6 @@
 
 <div class="grid grid-flow-row justify-center">
     <h1 class="sm:pt-3 pt-1 font-greycliffbold text-4xl text-center text-[#0D7071] ">
-        $storeName</h1>
-  
-</div>
-
-<div class="grid grid-flow-row justify-center pt-5 gap-3">
-    <div class="indicator justify-items-center place-self-center">
-Test
-    </div>
-
+        $storeName
+    </h1>
 </div>

@@ -1,7 +1,7 @@
 <script lang='ts'>
     import { onMount, onDestroy } from "svelte";
     import { goto } from '$app/navigation';
-    import { storeName, publicKey, pmtAmt, showWarning, mints, selectedMint } from '../stores.js';
+    import { storeName, publicKey, pmtAmt, showWarning, mints, selectedMint, successArray } from '../stores.js';
     
 
     onMount(async () => {
@@ -19,6 +19,9 @@
        
     })
     async function reset() {
+        localStorage.removeItem("successArray");
+        localStorage.removeItem("selectedMint");
+        $successArray = []
         goto('/', { state: { foo: 'bar' } });
     }
     

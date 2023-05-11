@@ -7,8 +7,10 @@
 
     onMount(async () => {
         
-       
-       
+      let successArrayStore = localStorage.getItem('successArray');
+      if (successArrayStore !== null) {
+        successArray.set(JSON.parse(successArrayStore));
+      }
        
     // Initialize KioskBoard (default/all options)
 
@@ -32,19 +34,19 @@
           <thead>
             <tr>
               <th>Date</th> 
-              <th class="text-left">Tx ID</th> 
+              <th class="text-center">Tx ID</th> 
               <th class="text-right">Montant</th> 
             </tr>
           </thead> 
           <tbody>
             {#each $successArray as item, i}
             <tr>
-              <td>{dayjs.unix(item.timestamp).format("YYYY-MM-DD HH:mm:ss")}</td> 
-              <td class="text-left">
+              <td>{dayjs.unix(item.timestamp).format("MM-DD HH:mm:ss")}</td> 
+              <td class="text-center">
                 <a class="hover:underline hover:decoration-primary" href="https://solscan.io/tx/{item.txid}" target="_blank">
-                {item.txid.substring(0,4)}...</a>
+                  {item.txid.substring(0,20)}...{item.txid.substring(68,88)}</a>
                 </td> 
-              <td class="text-right">{item.uiAmount}</td> 
+              <td class="text-right">{item.uiAmount} {item.uiToken}</td> 
             </tr>
             {/each}
             {#if $successArray.length === 0}

@@ -9,7 +9,7 @@ export const fullScreen = writable(false);
 export let successArray = writable([]);
 export const mints = writable([
     {name:"USDC", mint:"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"},
-    {name:"SOL", mint:"So11111111111111111111111111111111111111111"},
+    {name:"SOL", mint:"ASTkbpe5ckW1mx6WDLE9zPScWsYjSh6h5zQ89UYoUQ7D"},
     {name:"MVC", mint:"AFd3p9mwTS9MxLcByyDAs6h4HBepY3n8vBDHvrMorrmK"},
     {name:"BONK", mint:"DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263"},
     {name:"RAIN", mint:"rainH85N1vCoerCi4cQ3w6mCf7oYUdrsTFtFzpaRwjL"},
