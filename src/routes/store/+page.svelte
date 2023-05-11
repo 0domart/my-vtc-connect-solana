@@ -8,6 +8,7 @@
     import CreateCharge from "./CreateCharge.svelte";
     import Settings from "./Settings.svelte";
     import Transactions from "./Transactions.svelte";
+    import logoEntreprise from "../../lib/images/logo_mvc.svg";
 
     let cnx;
   
@@ -32,23 +33,24 @@
 </script>
 
 <div class="grid grid-flow-row justify-center gap-4">
-    <h1 class="sm:pt-3 pt-1 font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-gradient-to-br from-[#20BF55] to-[#01BAEF]">
-        {$storeName}</h1>
+
+    <div class="grid grid-flow-row justify-center">
+        <img class="inline w-96 h-32" src={logoEntreprise} alt="Logo">
+    </div>
 
     <div class="tabs tabs-boxed justify-items-center place-self-center">
-    
-        {#if activeTab == 1}
-            <a class="tab text-[#FFFFFF] bg-gradient-to-br from-[#20BF55] to-[#01BAEF] rounded-lg" on:click={()=>(activeTab=1)}>Create Charge</a> 
-            <a class="tab " on:click={()=>(activeTab=2)}>Transactions</a> 
-            <a class="tab " on:click={()=>(activeTab=3)}>Settings</a> 
+            {#if activeTab == 1}
+            <a class="tab bg-[var(--primary-color)] text-[#FFFFFF] rounded-lg" on:click={()=>(activeTab=1)}>Créer un paiement</a> 
+            <a class="tab " on:click={()=>(activeTab=2)}>Historique</a> 
+            <a class="tab " on:click={()=>(activeTab=3)}>Paramètres</a> 
         {:else if activeTab == 2}
-            <a class="tab " on:click={()=>(activeTab=1)}>Create Charge</a> 
-            <a class="tab text-[#FFFFFF] bg-gradient-to-br from-[#20BF55] to-[#01BAEF] rounded-lg" on:click={()=>(activeTab=2)}>Transactions</a> 
-            <a class="tab " on:click={()=>(activeTab=3)}>Settings</a> 
+            <a class="tab " on:click={()=>(activeTab=1)}>Créer un paiement</a> 
+            <a class="tab text-[#FFFFFF] bg-[var(--primary-color)] rounded-lg" on:click={()=>(activeTab=2)}>Historique</a> 
+            <a class="tab " on:click={()=>(activeTab=3)}>Paramètres</a> 
         {:else if activeTab == 3}
-            <a class="tab " on:click={()=>(activeTab=1)}>Create Charge</a> 
-            <a class="tab " on:click={()=>(activeTab=2)}>Transactions</a> 
-            <a class="tab text-[#FFFFFF] bg-gradient-to-br from-[#20BF55] to-[#01BAEF] rounded-lg" on:click={()=>(activeTab=3)}>Settings</a> 
+            <a class="tab " on:click={()=>(activeTab=1)}>Créer un paiement</a> 
+            <a class="tab " on:click={()=>(activeTab=2)}>Historique</a> 
+            <a class="tab text-[#FFFFFF] bg-[var(--primary-color)] rounded-lg" on:click={()=>(activeTab=3)}>Paramètres</a> 
         
         {/if}
         
@@ -62,15 +64,4 @@
     {:else if activeTab == 3}
         <Settings/>
     {/if}
-</div>
-
-<div class="flex justify-center flex-row pt-2">
-    <footer class="footer footer-center p-2 text-base-content rounded-md">
-        
-        <div class="items-center ">
-
-            <span class=" text-sm ">Odomart © 2023</span>
-            </div>
-    
-    </footer>
 </div>
