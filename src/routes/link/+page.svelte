@@ -80,11 +80,12 @@ async function goPay() {
     let walletAddress = urlParams.get('wallet');
     let amount = Number(urlParams.get('montant'));
     let token = urlParams.get('token');
+    console.log("amount", amount);
     let currentMint = $mints.filter(item => item.name == token)
     console.log("currentMint", currentMint);
     let splToken = new web3.PublicKey(currentMint[0].mint);
 
-    let url = "solana:"
+    let url2 = "solana:"
         + walletAddress
         + "?amount="
         + amount
@@ -94,6 +95,14 @@ async function goPay() {
         + reference
         + "&label=Payement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+payement+%21";
 
+        let url = "solana:G6CQw1w5FkcmMCSxf4NNZYLRXMbx355d5pZXqrcsdiZV?amount=0.01&spl-token=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&reference=H2Z2RaBUdcWYViRmgTozrKT71U4ibQwAztuPBcUAaA1g&label=Payement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+payement+%21"
+        
+    console.log(url);
+    console.log(url2);
+
+    if(url === url2){
+        console.log("equals");
+    }
     goto(url, {
         state: {
             foo: 'bar'
