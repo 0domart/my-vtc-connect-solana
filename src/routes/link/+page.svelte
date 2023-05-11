@@ -103,7 +103,7 @@ async function goPay() {
     if(url === url2){
         console.log("equals");
     }
-    goto(url, {
+    goto("solana:G6CQw1w5FkcmMCSxf4NNZYLRXMbx355d5pZXqrcsdiZV?amount=0.01&spl-token=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&reference=H2Z2RaBUdcWYViRmgTozrKT71U4ibQwAztuPBcUAaA1g&label=Payement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+payement+%21", {
         state: {
             foo: 'bar'
         }
