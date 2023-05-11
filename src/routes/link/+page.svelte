@@ -76,10 +76,10 @@ onMount(async () => {
 })
 async function goPay() {
 
-    const urlParams = new URLSearchParams(window.location.search);
-    let walletAddress = urlParams.get('wallet');
-    let amount = Number(urlParams.get('montant'));
-    let token = urlParams.get('token');
+    //const urlParams = new URLSearchParams(window.location.search);
+    let walletAddress = "G6CQw1w5FkcmMCSxf4NNZYLRXMbx355d5pZXqrcsdiZV"//urlParams.get('wallet');
+    let amount = 1 //Number(urlParams.get('montant'));
+    let token = "USDC"//urlParams.get('token');
     console.log("amount", amount);
     let currentMint = $mints.filter(item => item.name == token)
     console.log("currentMint", currentMint);
