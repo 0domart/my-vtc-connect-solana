@@ -28,31 +28,12 @@ import {
 import {
     goto
 } from '$app/navigation';
-import QRCodeStyling from '@solana/qr-code-styling'
 import BigNumber from 'bignumber.js';
 import InlineSVG from 'svelte-inline-svg'
 import card_svg from './card.svg'
 
-let cnx;
-let keyboardRef = null;
-let qrCode
-let qrCode2
-let qrRef = null
-let svg_container;
-let txnConfirmed = false
-let duration = 5000
-let timeout1: string | number | NodeJS.Timeout | undefined;
-let timeout2: string | number | NodeJS.Timeout | undefined;
-let timeout3: string | number | NodeJS.Timeout | undefined;
-let interval: string | number | NodeJS.Timeout | undefined;
-//const element = document.getElementById('qr-code');
-
 let sol_rpc = process.env.SOLANA_RPC ? process.env.SOLANA_RPC : "https://solana-mainnet.g.alchemy.com/v2/WGBoK0YbGQZUASSAYCbCb1MNvP_oUwIu";
 let connection = new web3.Connection(sol_rpc);
-let currentMint = $mints.filter(item => item.name == $selectedMint)
-console.log("currentMint", currentMint);
-let splToken = new web3.PublicKey(currentMint[0].mint);
-console.log("splToken", splToken);
 const reference = web3.Keypair.generate().publicKey;
 let storeText = $storeName ? $storeName : "Boutique"
 let label = 'Payement à ' + storeText
@@ -91,170 +72,33 @@ onMount(async () => {
     let recipient = new web3.PublicKey($publicKey)
 
     let amount = new BigNumber($pmtAmt);
-    let url = null;
-    if (currentMint[0].name == "SOL") {
-        url = ($publicKey) ? encodeURL({
-            recipient,
-            amount,
-            reference,
-            label,
-            message,
-            memo
-        }) : null;
-    } else {
-        url = ($publicKey) ? encodeURL({
-            recipient,
-            amount,
-            splToken,
-            reference,
-            label,
-            message,
-            memo
-        }) : null;
-    }
 
-    try {
-        qrCode = createQR(url, 360, 'white')
-        // qrCode2 = qrCode._svg.innerHTML
-        const element = document.getElementById('qr-code');
-        qrCode.append(element);
-        console.log(qrCode)
-        //console.log(await qrCode.getRawData())
-        //()
-    } catch (e) {
-        // qrCode = null
-        qrCode._svg = ""
-        console.log("error making QR ", e)
-
-    }
-
-    timeout1 = setTimeout(() => {
-        clearInterval(interval);
-        duration = 20000;
-        startInterval();
-    }, 120000);
-
-    timeout2 = setTimeout(() => {
-        clearInterval(interval);
-        duration = 30000;
-        startInterval();
-    }, 300000);
-
-    timeout3 = setTimeout(() => {
-        clearTimeout(timeout1);
-        clearTimeout(timeout2);
-        clearTimeout(timeout3);
-        clearInterval(interval)
-    }, 1000000);
-
-    startInterval();
-
-    //qrCode2 =decodeURIComponent(qrCode.toString()).replace('data:image/svg+xml,', '')
-
-})
-onDestroy(async () => {
-    //document.body.setAttribute('tabindex', '-1');
-    // <img src={qrCode._qr.createDataURL()}/>
-    // <svg width=512 height=512 viewBox="-1 -1 2 2" bind:this={qrCode}/>
 })
 async function goPay() {
-    goto('solana:G6CQw1w5FkcmMCSxf4NNZYLRXMbx355d5pZXqrcsdiZV?amount=0.01&spl-token=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&reference=H2Z2RaBUdcWYViRmgTozrKT71U4ibQwAztuPBcUAaA1g&label=Payement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+payement+%21', {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let walletAddress = urlParams.get('wallet');
+    let amount = Number(urlParams.get('montant'));
+    let token = urlParams.get('token');
+    let currentMint = $mints.filter(item => item.name == token)
+    console.log("currentMint", currentMint);
+    let splToken = new web3.PublicKey(currentMint[0].mint);
+
+    let url = "solana:"
+        + walletAddress
+        + "?amount="
+        + amount
+        + "&spl-token="
+        + splToken
+        + "&reference=" 
+        + reference
+        + "&label=Payement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+payement+%21";
+
+    goto(url, {
         state: {
             foo: 'bar'
         }
     });
-}
-
-function refresh() {
-
-    checkTransactionDone();
-
-    clearTimeout(timeout1);
-    clearTimeout(timeout2);
-    clearTimeout(timeout3);
-
-    timeout1 = setTimeout(() => {
-        clearInterval(interval);
-        duration = 15000;
-        startInterval();
-    }, 120000);
-
-    timeout2 = setTimeout(() => {
-        clearInterval(interval);
-        duration = 100000;
-        startInterval();
-    }, 300000);
-
-    timeout3 = setTimeout(() => {
-        clearInterval(interval);
-        duration = 200000;
-        startInterval();
-    }, 1000000);
-}
-
-function startInterval() {
-    interval = setInterval(async () => {
-        checkTransactionDone()
-    }, duration)
-    return () => {
-        clearTimeout(timeout1);
-        clearTimeout(timeout2);
-        clearTimeout(timeout3);
-        clearInterval(interval)
-    }
-}
-
-async function checkTransactionDone() {
-    try {
-        // Check if there is any transaction for the reference
-        let untilTxn = undefined
-        if ($mostRecentTxn != "") {
-            untilTxn = $mostRecentTxn
-        }
-        const signatureInfo = await findReference(connection, reference, {
-            until: untilTxn
-        });
-        if (signatureInfo.confirmationStatus == "finalized" || signatureInfo.confirmationStatus == "confirmed") {
-            console.log("Transaction confirmée !");
-            txnConfirmed = true
-            let confirmedTxn = await connection.getParsedTransaction(signatureInfo.signature)
-            if (confirmedTxn) {
-                let token = localStorage.getItem("selectedMint");
-                var new_entry = {
-                    "timestamp": confirmedTxn.blockTime,
-                    "txid": confirmedTxn.transaction.signatures[0],
-                    "uiAmount": confirmedTxn.transaction.message.instructions[1].parsed.info.tokenAmount.uiAmount,
-                    "uiToken": token ? token : ''
-                }
-                //item.transaction.message.accountKeys.flatMap(k => k.pubkey.toBase58())
-                if (!$successArray.flatMap(k => k.txid).includes(new_entry.txid)) {
-                    $successArray.push(new_entry)
-                }
-            }
-
-            $successArray = $successArray.filter(unique)
-            $successArray = $successArray
-            $mostRecentTxn = signatureInfo.signature;
-
-            localStorage.setItem('successArray', JSON.stringify($successArray)); // Store successArray in localStorage
-            localStorage.setItem('mostRecentTxn', $mostRecentTxn); // Store mostRecentTxn in localStorage
-
-            clearTimeout(timeout1);
-            clearTimeout(timeout2);
-            clearTimeout(timeout3);
-            clearInterval(interval)
-
-            return
-        }
-        //notify({ type: 'success', message: 'Transaction confirmed', txid: signatureInfo.signature });
-
-    } catch (e) {
-        if (e instanceof FindReferenceError) {
-            // No transaction found yet, ignore this error
-            return;
-        }
-        console.error('Unknown error', e)
-    }
 }
 </script>
 
@@ -267,7 +111,7 @@ async function checkTransactionDone() {
         <div class="indicator justify-items-center place-self-center gap-10">
             <div class="">
                 <button on:click={goPay} class="btn normal-case btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 ">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13h-1v4.75c0 .413.337.75.75.75s.75-.337.75-.75V7zm0 6.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5z" />
                 </svg>
                 <span class="pl-2">Payer</span></button>
             </div>
