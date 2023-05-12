@@ -271,7 +271,9 @@ async function checkTransactionDone() {
     <div class="grid grid-flow-row justify-center pt-2 gap-3">
         <h1 class="sm:pt-3 font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--primary-color)]">
             {$storeName}</h1>
+        {#if $pmtAmt && currentMint[0].name}
         <p class="sm:pt-3 font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--primary-color)]">{ $pmtAmt } {currentMint[0].name}</p>
+        {/if}
         <div class="pt-6 h-96" id="qr-code" >
             <qrCode/>
                 </div>
