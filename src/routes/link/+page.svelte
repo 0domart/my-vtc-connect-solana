@@ -39,12 +39,24 @@ let storeText = $storeName ? $storeName : "Boutique"
 let label = 'Payement à ' + storeText
 const message = 'Merci pour votre payement !';
 const memo = 'solana.pay';
+let walletAddress : string | null = null;
+let amount = 0;
+let token : string | null = null;
+
 
 const unique = (value, index, self) => {
     return self.indexOf(value) === index
 }
 
 onMount(async () => {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    walletAddress = urlParams.get('wallet');
+    let am = Number(urlParams.get('montant'));
+    if(am){
+        amount = am;
+    }
+    token = urlParams.get('token');
 
     let publicKeyStore = localStorage.getItem('publicKey');
     let storeNameStore = localStorage.getItem('storeName');
@@ -71,7 +83,7 @@ onMount(async () => {
 
     let recipient = new web3.PublicKey($publicKey)
 
-    let amount = new BigNumber($pmtAmt);
+    //let amount = new BigNumber($pmtAmt);
 
 })
 async function goPay() {
@@ -111,6 +123,10 @@ async function goPay() {
         <h1 class="sm:pt-3 font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--primary-color)]">
             {$storeName}</h1>
     </div>
+    <p>HELLO</p>
+    <p>amount -> {amount}</p>
+    <p>walletAddress -> {walletAddress}</p>
+    <p>token -> {token}</p>
     <div class="grid grid-flow-row justify-center pt-4 pb-16">
         <div class="indicator justify-items-center place-self-center gap-10">
             <div class="">
