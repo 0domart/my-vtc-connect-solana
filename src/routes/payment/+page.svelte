@@ -72,7 +72,7 @@ onMount(async () => {
     let pmtAmtStore = localStorage.getItem('pmtAmt');
 
     if (pmtAmtStore !== null) {
-        $pmtAmt.setValue(pmtAmtStore);
+        pmtAmt.set(pmtAmtStore);
     }
 
     if (publicKeyStore !== null) {
