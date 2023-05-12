@@ -42,7 +42,7 @@ const memo = 'solana.pay';
 let walletAddress : string | null = null;
 let amount = 0;
 let token : string | null = null;
-
+let token2 : string | null = null;
 
 const unique = (value, index, self) => {
     return self.indexOf(value) === index
@@ -50,7 +50,9 @@ const unique = (value, index, self) => {
 
 onMount(async () => {
 
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.href);
+    var parsedUrl = new URL(window.location.href)
+    token2 = parsedUrl.searchParams.get('wallet')
     walletAddress = urlParams.get('wallet');
     let am = Number(urlParams.get('montant'));
     if(am){
@@ -127,6 +129,7 @@ async function goPay() {
     <p>amount -> {amount}</p>
     <p>walletAddress -> {walletAddress}</p>
     <p>token -> {token}</p>
+    <p>token2 -> {token2}</p>
     <div class="grid grid-flow-row justify-center pt-4 pb-16">
         <div class="indicator justify-items-center place-self-center gap-10">
             <div class="">
