@@ -52,7 +52,7 @@ let connection = new web3.Connection(sol_rpc);
 let currentMint = $mints.filter(item => item.name == $selectedMint)
 console.log("currentMint", currentMint);
 let splToken = new web3.PublicKey(currentMint[0].mint);
-console.log("splToken",splToken);
+console.log("splToken", splToken);
 const reference = web3.Keypair.generate().publicKey;
 let storeText = $storeName ? $storeName : "Boutique"
 let label = 'Payement à ' + storeText
@@ -69,7 +69,15 @@ onMount(async () => {
     let storeNameStore = localStorage.getItem('storeName');
     let successArrayStore = localStorage.getItem('successArray');
     let mostRecentTxnStore = localStorage.getItem('mostRecentTxn');
-    
+    let pmtAmtStore = localStorage.getItem('pmtAmt');
+
+    if (pmtAmtStore !== null) {
+        $pmtAmt.setValue(pmtAmtStore);
+    }
+
+    if (publicKeyStore !== null) {
+        publicKey.set(publicKeyStore);
+    }
 
     if (publicKeyStore !== null) {
         publicKey.set(publicKeyStore);
@@ -93,26 +101,25 @@ onMount(async () => {
 
     let amount = new BigNumber($pmtAmt);
     let url = null;
-    if(currentMint[0].name == "SOL"){
+    if (currentMint[0].name == "SOL") {
         url = ($publicKey) ? encodeURL({
-        recipient,
-        amount,
-        reference,
-        label,
-        message,
-        memo
-    }) : null;
-    }
-    else {
+            recipient,
+            amount,
+            reference,
+            label,
+            message,
+            memo
+        }) : null;
+    } else {
         url = ($publicKey) ? encodeURL({
-        recipient,
-        amount,
-        splToken,
-        reference,
-        label,
-        message,
-        memo
-    }) : null;
+            recipient,
+            amount,
+            splToken,
+            reference,
+            label,
+            message,
+            memo
+        }) : null;
     }
 
     try {
@@ -264,6 +271,7 @@ async function checkTransactionDone() {
     <div class="grid grid-flow-row justify-center pt-2 gap-3">
         <h1 class="sm:pt-3 font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--primary-color)]">
             {$storeName}</h1>
+        <p class="sm:pt-3 font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--primary-color)]">{ $pmtAmt } {currentMint[0].name}</p>
         <div class="pt-6 h-96" id="qr-code" >
             <qrCode/>
                 </div>
@@ -288,25 +296,23 @@ async function checkTransactionDone() {
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-flow-row justify-center pt-4 pb-16">
-                    <div class="indicator justify-items-center place-self-center gap-10">
-                        <div class="">
-                            <button on:click={cancel} class="btn normal-case btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 ">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-                            </svg>
-                            <span class="pl-2">{txnConfirmed? "Retour" : "Annuler"}</span></button>
-                        </div>
-                        <div class="">
-                            <button on:click={refresh} class="btn normal-case btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="inline w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v4m0 0v4m0-4h4m-4 0H8" />
-                                <path d="M20.25 12C19.561 6.927 15.073 3 10 3S.438 6.927.75 12H3m2 0h4m4 0h4M3 12h1m1 0h4m4 0h1M9 16l2 2 2-2M12 2v4" />
-                            </svg>
-                            <span class="pl-2">{txnConfirmed? "Retour" : "Rafraîchir la transaction"}</span></button>
-                        </div>
+                <div class="grid grid-flow-row justify-center items-center pt-4 pb-4">
+                    <div class="grid grid-flow-row justify-center items-center pb-4">
+                        <button on:click={cancel} class="btn normal-case w-80 btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 ">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                        </svg>
+                        <span class="pl-2">{txnConfirmed? "Retour" : "Annuler"}</span></button>
+                    </div>
+                    <div class="grid grid-flow-row justify-center items-center">
+                        <button on:click={refresh} class="btn normal-case w-80 btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="inline w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v4m0 0v4m0-4h4m-4 0H8" />
+                            <path d="M20.25 12C19.561 6.927 15.073 3 10 3S.438 6.927.75 12H3m2 0h4m4 0h4M3 12h1m1 0h4m4 0h1M9 16l2 2 2-2M12 2v4" />
+                        </svg>
+                        <span class="pl-2">{txnConfirmed? "Retour" : "Rafraîchir la transaction"}</span></button>
                     </div>
                 </div>
                 {#if $showWarning}
-                <div class="grid grid-flow-row justify-center">
+                <div class="grid grid-flow-row justify-center pb-16">
                     <div class="indicator justify-items-center place-self-center">
                         <div class="text-orange-500">
 

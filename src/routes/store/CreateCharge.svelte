@@ -41,6 +41,7 @@
         
         if(Number($pmtAmt.replace(",", "")) > 0) {
             localStorage.setItem('selectedMint', $selectedMint);
+            localStorage.setItem('pmtAmt', $pmtAmt);
             goto('/payment', { state: { foo: 'bar' } });
             error = false;
         }
