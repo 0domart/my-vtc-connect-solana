@@ -180,6 +180,11 @@ onDestroy(async () => {
     // <svg width=512 height=512 viewBox="-1 -1 2 2" bind:this={qrCode}/>
 })
 async function cancel() {
+    clearTimeout(timeout1);
+        clearTimeout(timeout2);
+        clearTimeout(timeout3);
+        clearInterval(interval)
+        
     goto('/store', {
         state: {
             foo: 'bar'
