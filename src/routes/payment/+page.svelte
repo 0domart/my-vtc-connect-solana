@@ -134,7 +134,7 @@ onMount(async () => {
         }
     }
 
-    let size = 300
+    let size = 330
     const mobileMediaQuery = window.matchMedia("(max-width: 850px)");
     if(mobileMediaQuery.matches){
         size = 230;
@@ -330,12 +330,12 @@ async function checkTransactionDone() {
         </span>
         {/if}
         </div>
-        <div class="pt-6 scale-125 h-62 md:h-92" id="qr-code" >
+        <div class="pt-6 h-62 md:h-92" id="qr-code" >
             <qrCode/>
                 </div>
                 </div>
                 </div>
-                <div class="grid grid-flow-row justify-center pt-10 gap-3">
+                <div class="grid grid-flow-row justify-center pt-6 md:pt-12 gap-3">
                     <div class="indicator justify-items-center place-self-center">
                         <div class="">
                             {#if !txnConfirmed}
