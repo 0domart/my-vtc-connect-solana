@@ -103,11 +103,11 @@ onMount(async () => {
 
     if (selectedMintStore !== null) {
         selectedMint.set(selectedMintStore);
-        currentMint = $mints.filter(item => item.name == $selectedMint)
-        splToken = new web3.PublicKey(currentMint[0].mint);
     }
 
     let recipient = new web3.PublicKey($publicKey)
+    currentMint = $mints.filter(item => item.name == $selectedMint)
+    splToken = new web3.PublicKey(currentMint[0].mint);
 
     let amount = new BigNumber($pmtAmt);
     let url = null;
@@ -124,8 +124,8 @@ onMount(async () => {
         if(splToken){
             url = ($publicKey) ? encodeURL({
             recipient,
-            amount,
             splToken,
+            amount,
             reference,
             label,
             message,
@@ -184,7 +184,7 @@ async function cancel() {
         clearTimeout(timeout2);
         clearTimeout(timeout3);
         clearInterval(interval)
-        
+
     goto('/store', {
         state: {
             foo: 'bar'
