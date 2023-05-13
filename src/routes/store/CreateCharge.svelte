@@ -154,7 +154,7 @@
             {/if}
         </div>
     </div>
-    <div class="grid grid-flow-row justify-center pb-16">
+    <div class="grid grid-flow-row justify-center md:pb-16">
         <div class="indicator justify-items-center place-self-center">
             <div class="">
                 <button on:click={createStore} class="btn normal-case btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]">

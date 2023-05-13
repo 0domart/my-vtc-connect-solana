@@ -25,8 +25,8 @@
       <h3 class="card-title pt-5 justify-center text-center text-md font-greycliffbold -mt-5 pb-8 md:pb-12 text-transparent bg-clip-text bg-[var(--primary-color)]">Le digital au service du confort !</h3>
     
       <slot/>
-      <div class="flex justify-center mt-20 pb-4 bg-[var(--background-color)] sm:fixed sm:inset-x-0 sm:bottom-0">
-        <footer class="footer footer-center text-base-content rounded-md bottom-8 w-full">
+      <div class="flex justify-center mt-20 pb-6 bg-[var(--background-color)] sm:fixed sm:inset-x-0 sm:bottom-0">
+        <footer class="footer footer-center text-base-content rounded-md bottom-12 w-full">
           <div class="items-center">
             <span class="text-sm text-white">MY VTC CONNECT © 2017 - 2023 Tous droits réservés</span>
           </div>
