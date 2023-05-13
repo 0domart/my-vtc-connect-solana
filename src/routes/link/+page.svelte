@@ -15,7 +15,6 @@ import {
     publicKey,
     pmtAmt,
     mostRecentTxn,
-    showWarning,
     successArray,
     mints,
     selectedMint
@@ -90,7 +89,7 @@ onMount(async () => {
 })
 async function goPay() {
 
-    const urlParams = new URLSearchParams(window.location.search);
+    /*const urlParams = new URLSearchParams(window.location.search);
     let walletAddress = urlParams.get('wallet');
     let amount = Number(urlParams.get('montant'));
     let token = urlParams.get('token');
@@ -109,10 +108,10 @@ async function goPay() {
         + reference
         + "&label=Payement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+payement+%21";
         let url = "solana:G6CQw1w5FkcmMCSxf4NNZYLRXMbx355d5pZXqrcsdiZV?amount=0.01&spl-token=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&reference=H2Z2RaBUdcWYViRmgTozrKT71U4ibQwAztuPBcUAaA1g&label=Payement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+payement+%21"
-        
-    console.log(url);
+        */
+    //console.log(url);
 
-    goto("solana:G6CQw1w5FkcmMCSxf4NNZYLRXMbx355d5pZXqrcsdiZV?amount=0.01&spl-token=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&reference=H2Z2RaBUdcWYViRmgTozrKT71U4ibQwAztuPBcUAaA1g&label=Payement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+payement+%21", {
+    goto("solana:3ZyLUrtP8m2JT9Lkwqic3xSjev4ZFMtimfBgZUs7KSRQ?amount=1&spl-token=DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263&reference=9omA1ufnfMxMwKjHZQmg6zbaMLX6hzM72QWxCgUqnQbm&label=Payment+to+a&message=Thank+you+for+your+payment%21&memo=rippy.xyz", {
         state: {
             foo: 'bar'
         }
