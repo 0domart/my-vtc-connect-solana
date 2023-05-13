@@ -348,14 +348,14 @@ async function checkTransactionDone() {
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-flow-row justify-center items-center pt-4 pb-4">
+                <div class="grid grid-flow-row justify-center items-center pt-4">
                     <div class="grid grid-flow-row justify-center items-center pb-4">
                         <button on:click={cancel} class="btn normal-case w-80 btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 ">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
                         </svg>
                         <span class="pl-2">{txnConfirmed? "Retour" : "Annuler"}</span></button>
                     </div>
-                    <div class="grid grid-flow-row justify-center items-center pb-20">
+                    <div class="grid grid-flow-row justify-center items-center pb-8 md:pb-20">
                         <button on:click={refresh} class="btn normal-case w-80 btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="inline w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v4m0 0v4m0-4h4m-4 0H8" />
                             <path d="M20.25 12C19.561 6.927 15.073 3 10 3S.438 6.927.75 12H3m2 0h4m4 0h4M3 12h1m1 0h4m4 0h1M9 16l2 2 2-2M12 2v4" />
