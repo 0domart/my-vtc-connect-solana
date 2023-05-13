@@ -51,8 +51,8 @@
                     
                     <p class="text-md -mt-3 text-center font-greycliffbold text-transparent bg-clip-text bg-[var(--background-color)]">Entrez vos coordonnées marchandes</p>
                     <div class="flex flex-col pt-4 space-y-3 w-full mx-auto justify-center items-center">
-                        <input bind:value={$storeName} type="text" placeholder="Nom du magasin, ex : MY VTC Connect" class="text-center input input-sm border-black w-full max-w-lg" style="color: black;"/> 
-                        <input bind:value={$publicKey} type="text" placeholder="Adresse du portefeuille marchand (clé publique)" class="text-center input input-sm border-black w-full max-w-lg" style="color: black;"/> 
+                        <input bind:value={$storeName} type="text" placeholder="Nom du magasin, ex : MY VTC Connect" class="text-center input input-sm border-[#808080] w-full max-w-lg" style="color: black;"/> 
+                        <input bind:value={$publicKey} type="text" placeholder="Adresse du portefeuille marchand (clé publique)" class="text-center input input-sm border-[#808080] w-full max-w-lg" style="color: black;"/> 
                     </div>
                       
                       {#if invalidKey}
