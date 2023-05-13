@@ -135,7 +135,6 @@ onMount(async () => {
     }
 
     try {
-        console.log("url", url);
         qrCode = createQR(url, 360, 'white');
         qrCode._options.image = mvcLogo;
         qrCode._options.cornersDotOptions.color = "#deb320";
