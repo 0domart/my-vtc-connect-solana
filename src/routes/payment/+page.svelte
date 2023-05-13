@@ -127,7 +127,10 @@ onMount(async () => {
     }
 
     try {
-        qrCode = createQR(url, 360, 'white')
+        qrCode = createQR(url, 360, 'white');
+        qrCode._options.image = mvcLogo;
+        qrCode._options.cornersDotOptions.color = "#deb320";
+        qrCode._options.cornersSquareOptions.color = "#deb320";
         // qrCode2 = qrCode._svg.innerHTML
         const element = document.getElementById('qr-code');
         qrCode.append(element);
@@ -272,7 +275,7 @@ async function checkTransactionDone() {
     <div class="grid grid-flow-row justify-center gap-3">
         <div class="self-center flex items-center justify-center">
         {#if $pmtAmt && currentMint[0].name}
-        <span class="flex-shrink-0 flex justify-center font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--primary-color)]">{ $pmtAmt }</span>
+        <span class="flex-shrink-0 flex justify-center font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--secondary-color)]">{ $pmtAmt }</span>
         <span class="flex-shrink-0 pl-2 flex items-center justify-center">
             {#if currentMint[0].name == "USDC"}
             <svg class="w-11" xmlns="http://www.w3.org/2000/svg" data-name="86977684-12db-4850-8f30-233a7c267d11" viewBox="0 0 2000 2000">
