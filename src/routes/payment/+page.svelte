@@ -134,8 +134,14 @@ onMount(async () => {
         }
     }
 
+    let size = 300
+    const mobileMediaQuery = window.matchMedia("(max-width: 850px)");
+    if(mobileMediaQuery.matches){
+        size = 230;
+    }
+
     try {
-        qrCode = createQR(url, 360, 'white');
+        qrCode = createQR(url, size, 'white');
         qrCode._options.image = mvcLogo;
         qrCode._options.cornersDotOptions.color = "#deb320";
         qrCode._options.cornersSquareOptions.color = "#deb320";
@@ -324,7 +330,7 @@ async function checkTransactionDone() {
         </span>
         {/if}
         </div>
-        <div class="pt-6 h-96" id="qr-code" >
+        <div class="pt-6 scale-125 h-62 md:h-92" id="qr-code" >
             <qrCode/>
                 </div>
                 </div>
@@ -355,7 +361,7 @@ async function checkTransactionDone() {
                         </svg>
                         <span class="pl-2">{txnConfirmed? "Retour" : "Annuler"}</span></button>
                     </div>
-                    <div class="grid grid-flow-row justify-center items-center pb-8 md:pb-16">
+                    <div class="grid grid-flow-row justify-center items-center pb-2 md:pb-16">
                         {#if !txnConfirmed}
                         <button on:click={refresh} class="btn normal-case w-80 btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="inline w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v4m0 0v4m0-4h4m-4 0H8" />
