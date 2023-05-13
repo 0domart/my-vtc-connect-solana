@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-export const storeName = writable("");
+export const storeName = writable("My VTC Connect");
 export const publicKey = writable();
 export const pmtAmt = writable();
 export const mostRecentTxn = writable("");

@@ -55,8 +55,8 @@ let interval: string | number | NodeJS.Timeout | undefined;
 
 let sol_rpc = process.env.SOLANA_RPC ? process.env.SOLANA_RPC : "https://solana-mainnet.g.alchemy.com/v2/WGBoK0YbGQZUASSAYCbCb1MNvP_oUwIu";
 let connection = new web3.Connection(sol_rpc);
-let currentMint = $mints.filter(item => item.name == $selectedMint)
-let splToken = new web3.PublicKey(currentMint[0].mint);
+let currentMint: { name: string, mint: string }[] = [];
+let splToken: web3.PublicKey | null = null;
 const reference = web3.Keypair.generate().publicKey;
 let storeText = $storeName ? $storeName : "Boutique"
 let label = 'Payement à ' + storeText
@@ -74,6 +74,7 @@ onMount(async () => {
     let successArrayStore = localStorage.getItem('successArray');
     let mostRecentTxnStore = localStorage.getItem('mostRecentTxn');
     let pmtAmtStore = localStorage.getItem('pmtAmt');
+    let selectedMintStore = localStorage.getItem('selectedMint');
 
     if (pmtAmtStore !== null) {
         pmtAmt.set(pmtAmtStore);
@@ -101,6 +102,12 @@ onMount(async () => {
         mostRecentTxn.set(mostRecentTxnStore);
     }
 
+    if (selectedMintStore !== null) {
+        selectedMint.set(selectedMintStore);
+        currentMint = $mints.filter(item => item.name == $selectedMint)
+        splToken = new web3.PublicKey(currentMint[0].mint);
+    }
+
     let recipient = new web3.PublicKey($publicKey)
 
     let amount = new BigNumber($pmtAmt);
@@ -115,7 +122,8 @@ onMount(async () => {
             memo
         }) : null;
     } else {
-        url = ($publicKey) ? encodeURL({
+        if(splToken){
+            url = ($publicKey) ? encodeURL({
             recipient,
             amount,
             splToken,
@@ -124,9 +132,11 @@ onMount(async () => {
             message,
             memo
         }) : null;
+        }
     }
 
     try {
+        console.log("url", url);
         qrCode = createQR(url, 360, 'white');
         qrCode._options.image = mvcLogo;
         qrCode._options.cornersDotOptions.color = "#deb320";
@@ -274,7 +284,7 @@ async function checkTransactionDone() {
 <div class="grid grid-flow-row justify-center gap-4">
     <div class="grid grid-flow-row justify-center gap-3">
         <div class="self-center flex items-center justify-center">
-        {#if $pmtAmt && currentMint[0].name}
+        {#if $pmtAmt && currentMint && currentMint[0].name}
         <span class="flex-shrink-0 flex justify-center font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--secondary-color)]">{ $pmtAmt }</span>
         <span class="flex-shrink-0 pl-2 flex items-center justify-center">
             {#if currentMint[0].name == "USDC"}

@@ -11,6 +11,7 @@
     import mvcLogo from "../../lib/images/mvcLogo.png"
     import rainLogo from "../../lib/images/rainLogo.png"
     import foxyLogo from "../../lib/images/foxyLogo.webp"
+    import BigNumber from 'bignumber.js';
 
     const keys = [  { row: 0, value: "1"}, { row: 0, value: "2"}, { row: 0, value: "3"}, 
                     { row: 1, value: "4"}, { row: 1, value: "5"}, { row: 1, value: "6"},
@@ -39,9 +40,10 @@
     })
     async function createStore() {
         
-        if(Number($pmtAmt.replace(",", "")) > 0) {
+        if(BigNumber($pmtAmt.replace(",", "")) > BigNumber(0)) {
             localStorage.setItem('selectedMint', $selectedMint);
             localStorage.setItem('pmtAmt', $pmtAmt);
+            localStorage.removeItem('reference');
             goto('/payment', { state: { foo: 'bar' } });
             error = false;
         }
