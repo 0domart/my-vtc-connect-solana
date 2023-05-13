@@ -129,7 +129,7 @@
         --background="white"
         --color="black"
         --border-radius="0.5rem"
-        --border="solid 1px grey"
+        --border="solid 1px #808080"
         --box-shadow="none"
         --flex="1"
         --font-family="sans-serif"
