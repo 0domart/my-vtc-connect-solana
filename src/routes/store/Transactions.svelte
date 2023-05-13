@@ -39,7 +39,7 @@
             </tr>
           </thead> 
           <tbody>
-            {#each $successArray as item, i}
+            {#each $successArray.reverse() as item, i}
             <tr>
               <td>{dayjs.unix(item.timestamp).format("MM-DD HH:mm:ss")}</td> 
               <td class="text-center">

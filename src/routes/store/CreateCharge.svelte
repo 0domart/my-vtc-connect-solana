@@ -7,8 +7,8 @@
     import Keyboard from "svelte-keyboard";
     import bonkLogo from "../../lib/images/BonkLogo.png"
     import solLogo from "../../lib/images/solanaLogoMark.png"
-    import dustLogo from "../../lib/images/dustLogo.jpg"
-    import mvcLogo from "../../lib/images/mvcLogo.jpg"
+    import dustLogo from "../../lib/images/dustLogo.svg"
+    import mvcLogo from "../../lib/images/mvcLogo.png"
     import rainLogo from "../../lib/images/rainLogo.png"
     import foxyLogo from "../../lib/images/foxyLogo.webp"
 

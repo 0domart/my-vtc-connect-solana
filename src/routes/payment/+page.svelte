@@ -32,6 +32,12 @@ import QRCodeStyling from '@solana/qr-code-styling'
 import BigNumber from 'bignumber.js';
 import InlineSVG from 'svelte-inline-svg'
 import card_svg from './card.svg'
+import bonkLogo from "../../lib/images/BonkLogo.png"
+import solLogo from "../../lib/images/solanaLogoMark.png"
+import dustLogo from "../../lib/images/dustLogo.svg"
+import mvcLogo from "../../lib/images/mvcLogo.png"
+import rainLogo from "../../lib/images/rainLogo.png"
+import foxyLogo from "../../lib/images/foxyLogo.webp"
 
 let cnx;
 let keyboardRef = null;
@@ -50,9 +56,7 @@ let interval: string | number | NodeJS.Timeout | undefined;
 let sol_rpc = process.env.SOLANA_RPC ? process.env.SOLANA_RPC : "https://solana-mainnet.g.alchemy.com/v2/WGBoK0YbGQZUASSAYCbCb1MNvP_oUwIu";
 let connection = new web3.Connection(sol_rpc);
 let currentMint = $mints.filter(item => item.name == $selectedMint)
-console.log("currentMint", currentMint);
 let splToken = new web3.PublicKey(currentMint[0].mint);
-console.log("splToken", splToken);
 const reference = web3.Keypair.generate().publicKey;
 let storeText = $storeName ? $storeName : "Boutique"
 let label = 'Payement à ' + storeText
@@ -127,8 +131,6 @@ onMount(async () => {
         // qrCode2 = qrCode._svg.innerHTML
         const element = document.getElementById('qr-code');
         qrCode.append(element);
-        console.log(qrCode)
-        //console.log(await qrCode.getRawData())
         //()
     } catch (e) {
         // qrCode = null
@@ -224,7 +226,6 @@ async function checkTransactionDone() {
             until: untilTxn
         });
         if (signatureInfo.confirmationStatus == "finalized" || signatureInfo.confirmationStatus == "confirmed") {
-            console.log("Transaction confirmée !");
             txnConfirmed = true
             let confirmedTxn = await connection.getParsedTransaction(signatureInfo.signature)
             if (confirmedTxn) {
@@ -268,12 +269,34 @@ async function checkTransactionDone() {
 </script>
 
 <div class="grid grid-flow-row justify-center gap-4">
-    <div class="grid grid-flow-row justify-center pt-2 gap-3">
-        <h1 class="sm:pt-3 font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--primary-color)]">
-            {$storeName}</h1>
+    <div class="grid grid-flow-row justify-center gap-3">
+        <div class="self-center flex items-center justify-center">
         {#if $pmtAmt && currentMint[0].name}
-        <p class="sm:pt-3 font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--primary-color)]">{ $pmtAmt } {currentMint[0].name}</p>
+        <span class="flex-shrink-0 flex justify-center font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--primary-color)]">{ $pmtAmt }</span>
+        <span class="flex-shrink-0 pl-2 flex items-center justify-center">
+            {#if currentMint[0].name == "USDC"}
+            <svg class="w-11" xmlns="http://www.w3.org/2000/svg" data-name="86977684-12db-4850-8f30-233a7c267d11" viewBox="0 0 2000 2000">
+                <path d="M1000 2000c554.17 0 1000-445.83 1000-1000S1554.17 0 1000 0 0 445.83 0 1000s445.83 1000 1000 1000z" fill="#2775ca"/>
+                <path d="M1275 1158.33c0-145.83-87.5-195.83-262.5-216.66-125-16.67-150-50-150-108.34s41.67-95.83 125-95.83c75 0 116.67 25 137.5 87.5 4.17 12.5 16.67 20.83 29.17 20.83h66.66c16.67 0 29.17-12.5 29.17-29.16v-4.17c-16.67-91.67-91.67-162.5-187.5-170.83v-100c0-16.67-12.5-29.17-33.33-33.34h-62.5c-16.67 0-29.17 12.5-33.34 33.34v95.83c-125 16.67-204.16 100-204.16 204.17 0 137.5 83.33 191.66 258.33 212.5 116.67 20.83 154.17 45.83 154.17 112.5s-58.34 112.5-137.5 112.5c-108.34 0-145.84-45.84-158.34-108.34-4.16-16.66-16.66-25-29.16-25h-70.84c-16.66 0-29.16 12.5-29.16 29.17v4.17c16.66 104.16 83.33 179.16 220.83 200v100c0 16.66 12.5 29.16 33.33 33.33h62.5c16.67 0 29.17-12.5 33.34-33.33v-100c125-20.84 208.33-108.34 208.33-220.84z" fill="#fff"/>
+                <path d="M787.5 1595.83c-325-116.66-491.67-479.16-370.83-800 62.5-175 200-308.33 370.83-370.83 16.67-8.33 25-20.83 25-41.67V325c0-16.67-8.33-29.17-25-33.33-4.17 0-12.5 0-16.67 4.16-395.83 125-612.5 545.84-487.5 941.67 75 233.33 254.17 412.5 487.5 487.5 16.67 8.33 33.34 0 37.5-16.67 4.17-4.16 4.17-8.33 4.17-16.66v-58.34c0-12.5-12.5-29.16-25-37.5zM1229.17 295.83c-16.67-8.33-33.34 0-37.5 16.67-4.17 4.17-4.17 8.33-4.17 16.67v58.33c0 16.67 12.5 33.33 25 41.67 325 116.66 491.67 479.16 370.83 800-62.5 175-200 308.33-370.83 370.83-16.67 8.33-25 20.83-25 41.67V1700c0 16.67 8.33 29.17 25 33.33 4.17 0 12.5 0 16.67-4.16 395.83-125 612.5-545.84 487.5-941.67-75-237.5-258.34-416.67-487.5-491.67z" fill="#fff"/>
+            </svg>
+            
+            {:else if currentMint[0].name == "SOL"}
+                <img src={solLogo} class="w-11" />
+            {:else if currentMint[0].name == "BONK"}
+                <img src={bonkLogo} class="w-11" />
+            {:else if currentMint[0].name == "MVC"}
+                <img src={mvcLogo} class="w-11 bg-white rounded-full" />
+            {:else if currentMint[0].name == "RAIN"}
+                <img src={rainLogo} class="w-11" />
+            {:else if currentMint[0].name == "DUST"}
+                <img src={dustLogo} class="w-11" />
+            {:else if currentMint[0].name == "FOXY"}
+                <img src={foxyLogo} class="w-11" />
+            {/if}
+        </span>
         {/if}
+        </div>
         <div class="pt-6 h-96" id="qr-code" >
             <qrCode/>
                 </div>
@@ -313,8 +336,9 @@ async function checkTransactionDone() {
                         <span class="pl-2">{txnConfirmed? "Retour" : "Rafraîchir la transaction"}</span></button>
                     </div>
                 </div>
-                {#if $showWarning}
+                
                 <div class="grid grid-flow-row justify-center pb-16">
+                    {#if $showWarning}
                     <div class="indicator justify-items-center place-self-center">
                         <div class="text-orange-500">
 
@@ -324,5 +348,5 @@ async function checkTransactionDone() {
                             Cet appareil ne stocke aucune crypto-monnaie.
                         </div>
                     </div>
+                    {/if}
                 </div>
-                {/if}

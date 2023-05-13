@@ -3,6 +3,7 @@
     import "../global.css";
     import { fullScreen } from './stores';
     import Fullscreen from "svelte-fullscreen";
+    import logoEntreprise from "../lib/images/logo_mvc.svg";
 
   </script>
   <Fullscreen let:onRequest let:onExit>
@@ -18,6 +19,11 @@
         </svg>
         </button>
       {/if}
+      <div class="grid grid-flow-row justify-center">
+        <img class="inline w-96 h-32" src={logoEntreprise} alt="Logo">
+    </div>
+      <h3 class="card-title pt-5 justify-center text-center text-md font-greycliffbold -mt-5 pb-10 text-transparent bg-clip-text bg-[var(--primary-color)]">Le digital au service du confort !</h3>
+    
       <slot/>
       <div class="flex justify-center mt-20 pb-4 bg-[var(--background-color)] sm:fixed sm:inset-x-0 sm:bottom-0">
         <footer class="footer footer-center text-base-content rounded-md bottom-8 w-full">

@@ -1,14 +1,9 @@
 <script lang='ts'>
     import { onMount, onDestroy } from "svelte";
     import * as web3 from '@solana/web3.js';
-    import { storeName, publicKey, pmtAmt,  } from '../stores.js';
-
-	import { Focus } from "focus-svelte";
-    import { goto } from '$app/navigation';
     import CreateCharge from "./CreateCharge.svelte";
     import Settings from "./Settings.svelte";
     import Transactions from "./Transactions.svelte";
-    import logoEntreprise from "../../lib/images/logo_mvc.svg";
 
     let cnx;
   
@@ -33,10 +28,6 @@
 </script>
 
 <div class="grid grid-flow-row justify-center gap-4">
-
-    <div class="grid grid-flow-row justify-center">
-        <img class="inline w-96 h-32" src={logoEntreprise} alt="Logo">
-    </div>
 
     <div class="tabs tabs-boxed justify-items-center place-self-center">
             {#if activeTab == 1}

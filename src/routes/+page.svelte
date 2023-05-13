@@ -43,10 +43,6 @@
 
 </script>
 <div>
-    <div class="grid grid-flow-row justify-center">
-        <img class="inline w-96 h-32" src={logoEntreprise} alt="Logo">
-    </div>
-    <h3 class="card-title pt-5 justify-center text-center text-md font-greycliffbold -mt-5 pb-5 text-transparent bg-clip-text bg-[var(--primary-color)]">Le digital au service du confort !</h3>
     <h1 class="card-title pt-5 justify-center text-center text-md font-greycliffbold -mt-5 pb-5 text-transparent bg-clip-text bg-[var(--primary-color)]">Créez un terminal de payement instantanément !</h1>
     <div class="grid grid-flow-row justify-center pt-5 gap-3 w-screen">
         <div class="indicator justify-items-center place-self-center w-screen">
