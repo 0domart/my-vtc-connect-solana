@@ -119,7 +119,7 @@
             {:else if $selectedMint == "FOXY"}
                 <img src={foxyLogo} class="w-11" />
             {/if}
-            <input bind:value={$pmtAmt} class="w-60 h-fit rounded-lg ml-4 justify-center text-3xl text-center input border-black w-full max-w-lg text-[var(--background-color)] placeholder:text-2xl"  placeholder="Montant en ${$selectedMint}" />
+            <input bind:value={$pmtAmt} class="w-60 h-fit rounded-lg ml-4 justify-center text-3xl text-center input border-[#808080] w-full max-w-lg text-[var(--background-color)] placeholder:text-2xl"  placeholder="Montant en ${$selectedMint}" />
         </div>
         </div>
 
