@@ -245,15 +245,26 @@ async function checkTransactionDone() {
             txnConfirmed = true
             let confirmedTxn = await connection.getParsedTransaction(signatureInfo.signature)
             if (confirmedTxn) {
+                console.log("La transaction est validée", confirmedTxn);
                 let token = localStorage.getItem("selectedMint");
+                var new_entry = {};
                 var new_entry = {
                     "timestamp": confirmedTxn.blockTime,
                     "txid": confirmedTxn.transaction.signatures[0],
-                    "uiAmount": confirmedTxn.transaction.message.instructions[1].parsed.info.tokenAmount.uiAmount,
                     "uiToken": token ? token : ''
+                };
+
+                if(token == "SOL"){
+                    new_entry.uiAmount = confirmedTxn.transaction.message.instructions[1].parsed.info.lamports / 1000000000;
                 }
+                else {
+                    new_entry.uiAmount = confirmedTxn.transaction.message.instructions[1].parsed.info.tokenAmount.uiAmount
+                }
+                console.log("newEntry", new_entry)
                 //item.transaction.message.accountKeys.flatMap(k => k.pubkey.toBase58())
+                console.log("!$successArray.flatMap");
                 if (!$successArray.flatMap(k => k.txid).includes(new_entry.txid)) {
+                    console.log("INside");
                     $successArray.push(new_entry)
                 }
             }
@@ -261,7 +272,7 @@ async function checkTransactionDone() {
             $successArray = $successArray.filter(unique)
             $successArray = $successArray
             $mostRecentTxn = signatureInfo.signature;
-
+            console.log("$successArray", $successArray);
             localStorage.setItem('successArray', JSON.stringify($successArray)); // Store successArray in localStorage
             localStorage.setItem('mostRecentTxn', $mostRecentTxn); // Store mostRecentTxn in localStorage
 
