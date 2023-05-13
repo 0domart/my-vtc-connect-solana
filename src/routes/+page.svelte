@@ -43,7 +43,7 @@
 
 </script>
 <div>
-    <h1 class="card-title pt-5 justify-center text-center text-md font-greycliffbold -mt-5 pb-5 text-transparent bg-clip-text bg-[var(--primary-color)]">Créez un terminal de payement instantanément !</h1>
+    <h1 class="card-title pt-5 justify-center text-center text-md font-greycliffbold -mt-5 pb-5 text-transparent bg-clip-text bg-[var(--primary-color)]">Créez un terminal de paiement instantanément !</h1>
     <div class="grid grid-flow-row justify-center pt-5 gap-3 w-screen pb-12">
         <div class="indicator justify-items-center place-self-center w-screen">
             <div class="card bg-[var(--secondary-color)] shadow border mx-auto w-3/5 min-w-fit">

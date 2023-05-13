@@ -35,8 +35,8 @@ let sol_rpc = process.env.SOLANA_RPC ? process.env.SOLANA_RPC : "https://solana-
 let connection = new web3.Connection(sol_rpc);
 const reference = web3.Keypair.generate().publicKey;
 let storeText = $storeName ? $storeName : "Boutique"
-let label = 'Payement à ' + storeText
-const message = 'Merci pour votre payement !';
+let label = 'Paiement à ' + storeText
+const message = 'Merci pour votre paiement !';
 const memo = 'solana.pay';
 let walletAddress : string | null = null;
 let amount = 0;
@@ -71,7 +71,7 @@ onMount(async () => {
     if (storeNameStore !== null) {
         storeName.set(storeNameStore);
         storeText = storeNameStore;
-        label = 'Payement à ' + storeText;
+        label = 'Paiement à ' + storeText;
     }
 
     if (successArrayStore !== null) {
@@ -106,8 +106,8 @@ async function goPay() {
         + splToken
         + "&reference=" 
         + reference
-        + "&label=Payement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+payement+%21";
-        let url = "solana:G6CQw1w5FkcmMCSxf4NNZYLRXMbx355d5pZXqrcsdiZV?amount=0.01&spl-token=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&reference=H2Z2RaBUdcWYViRmgTozrKT71U4ibQwAztuPBcUAaA1g&label=Payement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+payement+%21"
+        + "&label=paiement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+paiement+%21";
+        let url = "solana:G6CQw1w5FkcmMCSxf4NNZYLRXMbx355d5pZXqrcsdiZV?amount=0.01&spl-token=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&reference=H2Z2RaBUdcWYViRmgTozrKT71U4ibQwAztuPBcUAaA1g&label=paiement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+paiement+%21"
         */
     //console.log(url);
 

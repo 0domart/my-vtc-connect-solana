@@ -66,11 +66,11 @@ async function reset() {
             </table>
         </div>
     </div>
-    {#if $successArray.length !== 0}
-    <div class="self-center items-center justify-center text-center">
+    <div class="self-center items-center justify-center text-center md:mb-16">
+      {#if $successArray.length !== 0}
       <button on:click={reset} class="mt-10 self-center items-center justify-center text-center btn normal-case h-2 w-92 btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]">
         <span class="text-center ">Effacer l'historique</span>
       </button>
+      {/if}
     </div>
-    {/if}
 </div>

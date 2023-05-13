@@ -58,8 +58,8 @@ let currentMint: { name: string, mint: string }[] = [];
 let splToken: web3.PublicKey | null = null;
 const reference = web3.Keypair.generate().publicKey;
 let storeText = $storeName ? $storeName : "Boutique"
-let label = 'Payement à ' + storeText
-const message = 'Merci pour votre payement !';
+let label = 'Paiement à ' + storeText
+const message = 'Merci pour votre paiement !';
 const memo = 'solana.pay';
 
 const unique = (value, index, self) => {
@@ -90,7 +90,7 @@ onMount(async () => {
     if (storeNameStore !== null) {
         storeName.set(storeNameStore);
         storeText = storeNameStore;
-        label = 'Payement à ' + storeText;
+        label = 'Paiement à ' + storeText;
     }
 
     if (successArrayStore !== null) {
@@ -343,7 +343,7 @@ async function checkTransactionDone() {
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                Transaction validée ! Merci pour votre payement</span>
+                                Transaction validée ! Merci pour votre paiement</span>
                             {/if}
                         </div>
                     </div>
