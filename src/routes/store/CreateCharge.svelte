@@ -126,9 +126,10 @@
 
         <Keyboard custom="{keys}" on:keydown="{onKeydown}"
         --height="4rem"
-        --background="black"
-        --color="currentColor"
+        --background="white"
+        --color="black"
         --border-radius="0.5rem"
+        --border="solid 1px grey"
         --box-shadow="none"
         --flex="1"
         --font-family="sans-serif"
