@@ -19,10 +19,10 @@
         </svg>
         </button>
       {/if}
-      <div class="grid grid-flow-row justify-center">
-        <img class="inline w-96 h-32" src={logoEntreprise} alt="Logo">
+      <div class="grid grid-flow-row justify-center -mt-10">
+        <img class="h-8 w-32 md:w-96 md:h-32" src={logoEntreprise} alt="Logo">
     </div>
-      <h3 class="card-title pt-5 justify-center text-center text-md font-greycliffbold -mt-5 pb-10 text-transparent bg-clip-text bg-[var(--primary-color)]">Le digital au service du confort !</h3>
+      <h3 class="card-title pt-5 justify-center text-center text-md font-greycliffbold -mt-5 pb-8 md:pb-12 text-transparent bg-clip-text bg-[var(--primary-color)]">Le digital au service du confort !</h3>
     
       <slot/>
       <div class="flex justify-center mt-20 pb-4 bg-[var(--background-color)] sm:fixed sm:inset-x-0 sm:bottom-0">
