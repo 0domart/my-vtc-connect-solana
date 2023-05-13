@@ -10,7 +10,6 @@ import {
     storeName,
     publicKey,
     pmtAmt,
-    showWarning,
     successArray
 } from '../stores.js';
 import dayjs from 'dayjs'

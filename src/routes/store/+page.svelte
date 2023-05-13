@@ -14,8 +14,6 @@
         
         let sol_rpc = process.env.SOLANA_RPC? process.env.SOLANA_RPC : "https://solana-mainnet.g.alchemy.com/v2/WGBoK0YbGQZUASSAYCbCb1MNvP_oUwIu";
         cnx = new web3.Connection(sol_rpc);
-       
-
         
     })
     onDestroy(async ()=> {

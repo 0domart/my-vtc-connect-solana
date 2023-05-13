@@ -4,7 +4,6 @@ export const storeName = writable("My VTC Connect");
 export const publicKey = writable();
 export const pmtAmt = writable();
 export const mostRecentTxn = writable("");
-export const showWarning = writable(false);
 export const fullScreen = writable(false);
 export let successArray = writable([]);
 export const mints = writable([
