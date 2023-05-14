@@ -37,6 +37,7 @@ import dustLogo from "../../lib/images/dustLogo.svg"
 import mvcLogo from "../../lib/images/mvcLogo.png"
 import rainLogo from "../../lib/images/rainLogo.png"
 import foxyLogo from "../../lib/images/foxyLogo.webp"
+import mixpanel from 'mixpanel-browser';
 
 let cnx;
 let keyboardRef = null;
@@ -77,10 +78,6 @@ onMount(async () => {
 
     if (pmtAmtStore !== null) {
         pmtAmt.set(pmtAmtStore);
-    }
-
-    if (publicKeyStore !== null) {
-        publicKey.set(publicKeyStore);
     }
 
     if (publicKeyStore !== null) {
@@ -186,7 +183,6 @@ onDestroy(async () => {
     // <svg width=512 height=512 viewBox="-1 -1 2 2" bind:this={qrCode}/>
 })
 async function cancel() {
-    _paq.push(['trackEvent', 'Button', 'Click', 'ButtonLabel']);
     clearTimeout(timeout1);
         clearTimeout(timeout2);
         clearTimeout(timeout3);
@@ -267,6 +263,16 @@ async function checkTransactionDone() {
                 else {
                     new_entry.uiAmount = confirmedTxn.transaction.message.instructions[1].parsed.info.tokenAmount.uiAmount
                 }
+
+                mixpanel.init('0daa20bc6454804716cd560d090453a0', {debug: true}); 
+                mixpanel.identify($publicKey,"","","","","","","");
+                mixpanel.track('Transaction validée, payé par le client', {
+                    'receiveur addresse': $publicKey,
+                    'transaction addresse': new_entry.txid,
+                    'montant': new_entry.uiAmount,
+                    'token': token
+                });
+
                 console.log("newEntry", new_entry)
                 //item.transaction.message.accountKeys.flatMap(k => k.pubkey.toBase58())
                 console.log("!$successArray.flatMap");
@@ -301,6 +307,7 @@ async function checkTransactionDone() {
     }
 }
 </script>
+
 
 <div class="grid grid-flow-row justify-center gap-4">
     <div class="grid grid-flow-row justify-center gap-3">

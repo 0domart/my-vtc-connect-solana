@@ -4,6 +4,7 @@
     import { storeName, publicKey } from './stores';
     import { goto } from '$app/navigation';
     import logoEntreprise from "../lib/images/logo_mvc.svg";
+    import mixpanel from 'mixpanel-browser';
 
     let cnx;
     let invalidKey = false;

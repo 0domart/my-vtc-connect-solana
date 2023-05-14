@@ -13,6 +13,7 @@
     import rainLogo from "../../lib/images/rainLogo.png"
     import foxyLogo from "../../lib/images/foxyLogo.webp"
     import BigNumber from 'bignumber.js';
+    import mixpanel from 'mixpanel-browser';
 
     const keys = [  { row: 0, value: "1"}, { row: 0, value: "2"}, { row: 0, value: "3"}, 
                     { row: 1, value: "4"}, { row: 1, value: "5"}, { row: 1, value: "6"},
@@ -57,6 +58,15 @@
             localStorage.setItem('selectedMint', $selectedMint);
             localStorage.setItem('pmtAmt', $pmtAmt);
             localStorage.removeItem('reference');
+            let publicKeyStore = localStorage.getItem('publicKey');
+            if (publicKeyStore !== null) {
+                publicKey.set(publicKeyStore);
+            }
+            // Replace YOUR_TOKEN with your Project Token
+            mixpanel.init('0daa20bc6454804716cd560d090453a0', {debug: true}); 
+            mixpanel.identify($publicKey,"","","","","","","");
+            mixpanel.track('Création paiement');
+
             goto('/payment', { state: { foo: 'bar' } });
             error = false;
         }

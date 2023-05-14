@@ -5,6 +5,15 @@
     import Fullscreen from "svelte-fullscreen";
     import logoEntreprise from "../lib/images/logo_mvc.svg";
 
+    import mixpanel from 'mixpanel-browser';
+
+    // Replace YOUR_TOKEN with your Project Token
+    mixpanel.init('0daa20bc6454804716cd560d090453a0', {debug: true}); 
+
+    // Track an event. It can be anything, but in this example, we're tracking a Signed Up event.
+    // Include a property about the signup, like the Signup Type
+    mixpanel.track('Arrivée sur la page');
+
   </script>
   <Fullscreen let:onRequest let:onExit>
     <div style="background-color: var(--background-color);" class="h-fit min-h-screen">
