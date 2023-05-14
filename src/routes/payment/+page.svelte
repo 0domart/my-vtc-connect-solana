@@ -314,7 +314,6 @@ async function checkTransactionDone() {
         <div class="self-center flex items-center justify-center">
         {#if $pmtAmt && currentMint.length > 0 && currentMint[0].name}
         <span class="flex-shrink-0 flex justify-center font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--secondary-color)]">{ $pmtAmt }</span>
-        <span class="flex-shrink-0 pl-3 flex justify-center font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--secondary-color)]">{currentMint[0].name }</span>
         <span class="flex-shrink-0 pl-2 flex items-center justify-center">
             <img src={currentMint[0].img} class="w-11" />
         </span>

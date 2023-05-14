@@ -9,7 +9,8 @@ import {
     encodeURL,
     findReference,
     FindReferenceError
-} from "@solana/pay"
+} from "@solana/pay";
+import BigNumber from 'bignumber.js';
 import {
     storeName,
     publicKey,
@@ -28,7 +29,7 @@ const reference = web3.Keypair.generate().publicKey;
 export let data;
 console.log("data", data);
 let walletAddress: web3.PublicKey | null = null;
-let amount = 0;
+let amount = "";
 let token: string | null = null;
 let url: string = "";
 let currentMint: {
@@ -42,7 +43,7 @@ onMount(async () => {
     url = window.location.href;
     const urlParts = url.split('/');
     let wallet = urlParts[urlParts.length - 3];
-    amount = Number(urlParts[urlParts.length - 2]);
+    amount = urlParts[urlParts.length - 2];
     token = urlParts[urlParts.length - 1];
 
     currentMint = $mints.filter(item => item.name == token)
@@ -62,7 +63,7 @@ async function goPay() {
     let urlToPay = "solana:" +
         walletAddress +
         "?amount=" +
-        amount +
+        BigNumber(amount) +
         "&spl-token=" +
         splToken +
         "&reference=" +
@@ -82,7 +83,6 @@ async function goPay() {
         <div class="self-center flex items-center justify-center">
             {#if amount && currentMint.length > 0 && currentMint[0].name}
             <span class="flex-shrink-0 flex justify-center font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--secondary-color)]">{ amount }</span>
-            <span class="flex-shrink-0 pl-3 flex justify-center font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--secondary-color)]">{currentMint[0].name }</span>
             <span class="flex-shrink-0 pl-3 flex items-center justify-center">
                 <img src={currentMint[0].img } class="w-11" />
             </span>
