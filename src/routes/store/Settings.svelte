@@ -34,7 +34,7 @@
         <div class="form-control">
             <label class="label">
                 <span class="label-text justify-left pr-2">Modifier la devise de paiement</span>
-                <select bind:value={$selectedMint} class="select select-xs justify-end text-[var(--background-color)]">
+                <select bind:value={$selectedMint} on:click={() => {localStorage.setItem('selectedMint', $selectedMint)}} class="select select-xs justify-end text-[var(--background-color)]">
                     {#each $mints as mint}
                     <option>{mint.name}</option>
                     {/each}
