@@ -58,7 +58,7 @@ onMount(async () => {
 })
 
 async function goPay() {
-    let somme = Number((Number(amount) + Number(tipAmount)).toFixed(Math.max((Number(amount) + Number(tipAmount)))));
+    let somme = BigNumber((Number(amount) + Number(tipAmount)).toFixed(Math.max((Number(amount) + Number(tipAmount)))));
     let urlToPay = "solana:" +
         walletAddress +
         "?amount=" +
