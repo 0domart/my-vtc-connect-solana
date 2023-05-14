@@ -266,7 +266,7 @@ async function checkTransactionDone() {
 
                 mixpanel.init('0daa20bc6454804716cd560d090453a0', {debug: true}); 
                 mixpanel.identify($publicKey,"","","","","","","");
-                mixpanel.track('Transaction validée, payé par le client', {
+                mixpanel.track('Transaction valide', {
                     'receiveur addresse': $publicKey.toString(),
                     'transaction addresse': new_entry.txid.toString(),
                     'montant': new_entry.uiAmount.toString(),
