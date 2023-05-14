@@ -186,6 +186,7 @@ onDestroy(async () => {
     // <svg width=512 height=512 viewBox="-1 -1 2 2" bind:this={qrCode}/>
 })
 async function cancel() {
+    _paq.push(['trackEvent', 'Button', 'Click', 'ButtonLabel']);
     clearTimeout(timeout1);
         clearTimeout(timeout2);
         clearTimeout(timeout3);
