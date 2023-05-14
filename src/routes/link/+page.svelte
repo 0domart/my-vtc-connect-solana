@@ -42,12 +42,13 @@ let walletAddress : string | null = null;
 let amount = 0;
 let token : string | null = null;
 let token2 : string | null = null;
+let url1: string = "";
+let url2: string = "";
 
-const unique = (value, index, self) => {
-    return self.indexOf(value) === index
-}
 
 onMount(async () => {
+    url1 = window.location.href;
+    url2 = window.location.search;
 
     const urlParams = new URLSearchParams(window.location.href);
     var parsedUrl = new URL(window.location.href)
@@ -125,6 +126,8 @@ async function goPay() {
             {$storeName}</h1>
     </div>
     <p>HELLO</p>
+    <p>url1 -> {url1}</p>
+    <p>url2 -> {url2}</p>
     <p>amount -> {amount}</p>
     <p>walletAddress -> {walletAddress}</p>
     <p>token -> {token}</p>
