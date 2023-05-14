@@ -59,9 +59,11 @@ let currentMint: { name: string, mint: string, img: string }[] = [];
 let splToken: web3.PublicKey | null = null;
 const reference = web3.Keypair.generate().publicKey;
 let storeText = $storeName ? $storeName : "Boutique"
-let label = 'Paiement à ' + storeText
+let label = 'Paiement à ' + storeText;
+let recipient: web3.PublicKey | null = null;
 const message = 'Merci pour votre paiement !';
 const memo = 'solana.pay';
+let amount = BigNumber(0);
 
 const unique = (value, index, self) => {
     return self.indexOf(value) === index
@@ -102,11 +104,11 @@ onMount(async () => {
         selectedMint.set(selectedMintStore);
     }
 
-    let recipient = new web3.PublicKey($publicKey)
+    recipient = new web3.PublicKey($publicKey)
     currentMint = $mints.filter(item => item.name == $selectedMint)
     splToken = new web3.PublicKey(currentMint[0].mint);
 
-    let amount = new BigNumber($pmtAmt);
+    amount = new BigNumber($pmtAmt);
     let url = null;
     if (currentMint[0].name == "SOL") {
         url = ($publicKey) ? encodeURL({
@@ -193,6 +195,29 @@ async function cancel() {
             foo: 'bar'
         }
     });
+}
+
+function copyTextToClipboard(text: string) {
+  // Create a temporary textarea element
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+
+  // Append the textarea to the DOM
+  document.body.appendChild(textarea);
+
+  // Select the text within the textarea
+  textarea.select();
+
+  // Copy the selected text to the clipboard
+  document.execCommand('copy');
+
+  // Remove the temporary textarea
+  document.body.removeChild(textarea);
+}
+
+function copyLink(){
+    let urlLink = "https://phantom.app/ul/browse/" + recipient + "/" + amount + "/" + splToken;
+    copyTextToClipboard(urlLink);
 }
 
 function refresh() {
@@ -349,6 +374,14 @@ async function checkTransactionDone() {
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
                         </svg>
                         <span class="pl-2">{txnConfirmed? "Retour" : "Annuler"}</span></button>
+                    </div>
+                    <div class="grid grid-flow-row justify-center items-center pb-4">
+                        {#if false}
+                        <button on:click={copyLink} class="btn normal-case w-80 btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 ">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 6H4a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-4M8 2h12a2 2 0 012 2v12a2 2 0 01-2 2H8a2 2 0 01-2-2V4a2 2 0 012-2z" />
+                        </svg>
+                        <span class="pl-2">Copier le lien</span></button>
+                        {/if}
                     </div>
                     <div class="grid grid-flow-row justify-center items-center pb-2 md:pb-16">
                         {#if !txnConfirmed}
