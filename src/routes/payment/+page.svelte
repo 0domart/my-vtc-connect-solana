@@ -270,7 +270,7 @@ async function checkTransactionDone() {
                     'receiveur addresse': $publicKey.toString(),
                     'transaction addresse': new_entry.txid.toString(),
                     'montant': new_entry.uiAmount.toString(),
-                    'token': token.toString(),
+                    'spl': token.toString(),
                 });
 
                 console.log("newEntry", new_entry)
