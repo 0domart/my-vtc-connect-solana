@@ -52,7 +52,9 @@ onMount(async () => {
     console.log(amount); // "2"
     console.log(token); // "USDC"
 
-    walletAddress = new web3.PublicKey(wallet)
+    walletAddress = new web3.PublicKey(wallet);
+
+    goPay();
 })
 
 async function goPay() {
