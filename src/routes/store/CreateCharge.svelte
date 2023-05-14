@@ -26,9 +26,15 @@
     let decimalsActive = false
     let error = false
     let showDropdown = false
-    let selectedLogo = usdcLogo;
+    let selectedLogo: string | null | undefined = usdcLogo;
 
     onMount(async () => {
+        let selectedMintStore = localStorage.getItem('selectedMint');
+
+        if (selectedMintStore !== null) {
+        selectedMint.set(selectedMintStore);
+        }
+
         const currentMint = $mints.filter(item => item.name == $selectedMint)
         selectedLogo = currentMint[0].img;
     })
