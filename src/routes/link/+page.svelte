@@ -126,8 +126,8 @@ async function goPay() {
             {$storeName}</h1>
     </div>
     <p>HELLO</p>
-    <p>url1 -> {url1}</p>
-    <p>url2 -> {url2}</p>
+    <p class="text-xs">url1 -> {url1}</p>
+    <p class="text-xs">url2 -> {url2}</p>
     <p>amount -> {amount}</p>
     <p>walletAddress -> {walletAddress}</p>
     <p>token -> {token}</p>
