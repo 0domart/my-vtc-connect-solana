@@ -23,6 +23,7 @@ import {
 import {
     goto
 } from '$app/navigation';
+import Decimal from 'decimal.js';
 
 let sol_rpc = process.env.SOLANA_RPC ? process.env.SOLANA_RPC : "https://solana-mainnet.g.alchemy.com/v2/WGBoK0YbGQZUASSAYCbCb1MNvP_oUwIu";
 const reference = web3.Keypair.generate().publicKey;
@@ -58,7 +59,7 @@ onMount(async () => {
 })
 
 async function goPay() {
-    let somme = BigNumber(Number(amount) + Number(tipAmount));
+    let somme = BigNumber(Number(Number(amount).toFixed(7)) + Number(Number(tipAmount).toFixed(7)));
     let urlToPay = "solana:" +
         walletAddress +
         "?amount=" +
@@ -71,13 +72,25 @@ async function goPay() {
 
     goto(urlToPay);
 }
+
+function limitDecimals(event: Event | undefined, maxDecimals: number | undefined) {
+    const input = event.target;
+  const value = input.value;
+
+  const decimalCount = (value.split('.')[1] || '').length;
+  if (decimalCount > 7) {
+    input.value = parseFloat(value).toFixed(6);
+  }
+}
+
 </script>
 
 <div class="grid grid-flow-row justify-center gap-4">
     <div class="grid grid-flow-row justify-center gap-3 pt-10">
         <div class="self-center flex items-center justify-center">
             {#if amount && currentMint.length > 0 && currentMint[0].name}
-            <span class="flex-shrink-0 flex justify-center font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--secondary-color)]">{(Number(amount) + Number(tipAmount)).toFixed(Math.max((Number(amount) + Number(tipAmount)).toString().split(".")[1]?.length || 0, 2))}</span>
+            <span class="flex-shrink-0 flex justify-center font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--secondary-color)]">{((Number(amount) * 1000000) + (Number(tipAmount) * 1000000)) / (Number(amount) % 1 !== 0 || Number(tipAmount) % 1 !== 0 ? Number(Number(1000000).toFixed(7)) : 1000000)}
+            </span>
             <span class="flex-shrink-0 pl-3 flex items-center justify-center">
                 <img src={currentMint[0].img } class="w-11" />
             </span>
@@ -98,7 +111,7 @@ async function goPay() {
         <div class="indicator justify-items-center place-self-center gap-10">
             <div class="">
                 <span class="pr-4 text-lg">Ajouter un pourboire ?</span>
-                <input type="number" min="0" step="0.25" bind:value={tipAmount} class="border text-center border-gray-300 rounded px-3 py-2 w-28 text-lg text-black" placeholder="Ajouter un pourboire" />
+                <input on:input={() => limitDecimals(event, 7)} type="number" min="0" step="0.25" bind:value={tipAmount} class="border text-center border-gray-300 rounded px-3 py-2 w-28 text-lg text-black" placeholder="Ajouter un pourboire" />
             </div>
         </div>
     </div>
