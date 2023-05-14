@@ -43,7 +43,7 @@
             
         </div>
           <div class="card-actions justify-center pt-10">
-            <button on:click={reset} class="btn normal-case btn-sm bg-[var(--primary-color)]">Réintialiser la boutique</button>
+            <button on:click={reset} class="btn normal-case btn-sm bg-[var(--primary-color)]">Réinitialiser la boutique</button>
         </div>
     </div>
     

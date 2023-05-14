@@ -1,10 +1,11 @@
 <script lang='ts'>
     import { onMount, onDestroy } from "svelte";
     import { goto } from '$app/navigation';
-    import { storeName, publicKey, pmtAmt, selectedMint } from '../stores.js';
+    import { storeName, publicKey, pmtAmt, selectedMint, mints } from '../stores.js';
     import * as KioskBoard from 'kioskboard';
     import englishKeypbad from "../../keyboards/kioskboard-keys-english.json"
     import Keyboard from "svelte-keyboard";
+    import usdcLogo from "../../lib/images/usdcLogo.svg"
     import bonkLogo from "../../lib/images/BonkLogo.png"
     import solLogo from "../../lib/images/solanaLogoMark.png"
     import dustLogo from "../../lib/images/dustLogo.svg"
@@ -24,20 +25,26 @@
     let right = ""
     let decimalsActive = false
     let error = false
+    let showDropdown = false
+    let selectedLogo = usdcLogo;
 
     onMount(async () => {
-        
-
-       
-    // Initialize KioskBoard (default/all options)
-
-    
-        
+        const currentMint = $mints.filter(item => item.name == $selectedMint)
+        selectedLogo = currentMint[0].img;
     })
-    onDestroy(async ()=> {
-        //document.body.setAttribute('tabindex', '-1');
-       
+    onDestroy(async ()=> {       
     })
+
+    function toggleDropdown() {
+        showDropdown = !showDropdown;
+    }
+
+    function selectMint(mint: { name: any; mint?: string; img?: string; }) {
+    selectedMint.set(mint.name);
+    selectedLogo = mint.img;
+    toggleDropdown();
+    }
+
     async function createStore() {
         
         if(BigNumber($pmtAmt.replace(",", "")) > BigNumber(0)) {
@@ -98,26 +105,21 @@
         <div class="card-body px-6 pb-4 text-center">
             <h1 class="align-center justify-center text-xl font-greycliffbold -mt-5 pb-1 text-transparent bg-clip-text bg-[var(--background-color)]">Entrez le montant à payer</h1>
             <div class="flex items-center justify-center">
-                {#if $selectedMint == "USDC"}
-            <svg class="w-11" xmlns="http://www.w3.org/2000/svg" data-name="86977684-12db-4850-8f30-233a7c267d11" viewBox="0 0 2000 2000">
-                <path d="M1000 2000c554.17 0 1000-445.83 1000-1000S1554.17 0 1000 0 0 445.83 0 1000s445.83 1000 1000 1000z" fill="#2775ca"/>
-                <path d="M1275 1158.33c0-145.83-87.5-195.83-262.5-216.66-125-16.67-150-50-150-108.34s41.67-95.83 125-95.83c75 0 116.67 25 137.5 87.5 4.17 12.5 16.67 20.83 29.17 20.83h66.66c16.67 0 29.17-12.5 29.17-29.16v-4.17c-16.67-91.67-91.67-162.5-187.5-170.83v-100c0-16.67-12.5-29.17-33.33-33.34h-62.5c-16.67 0-29.17 12.5-33.34 33.34v95.83c-125 16.67-204.16 100-204.16 204.17 0 137.5 83.33 191.66 258.33 212.5 116.67 20.83 154.17 45.83 154.17 112.5s-58.34 112.5-137.5 112.5c-108.34 0-145.84-45.84-158.34-108.34-4.16-16.66-16.66-25-29.16-25h-70.84c-16.66 0-29.16 12.5-29.16 29.17v4.17c16.66 104.16 83.33 179.16 220.83 200v100c0 16.66 12.5 29.16 33.33 33.33h62.5c16.67 0 29.17-12.5 33.34-33.33v-100c125-20.84 208.33-108.34 208.33-220.84z" fill="#fff"/>
-                <path d="M787.5 1595.83c-325-116.66-491.67-479.16-370.83-800 62.5-175 200-308.33 370.83-370.83 16.67-8.33 25-20.83 25-41.67V325c0-16.67-8.33-29.17-25-33.33-4.17 0-12.5 0-16.67 4.16-395.83 125-612.5 545.84-487.5 941.67 75 233.33 254.17 412.5 487.5 487.5 16.67 8.33 33.34 0 37.5-16.67 4.17-4.16 4.17-8.33 4.17-16.66v-58.34c0-12.5-12.5-29.16-25-37.5zM1229.17 295.83c-16.67-8.33-33.34 0-37.5 16.67-4.17 4.17-4.17 8.33-4.17 16.67v58.33c0 16.67 12.5 33.33 25 41.67 325 116.66 491.67 479.16 370.83 800-62.5 175-200 308.33-370.83 370.83-16.67 8.33-25 20.83-25 41.67V1700c0 16.67 8.33 29.17 25 33.33 4.17 0 12.5 0 16.67-4.16 395.83-125 612.5-545.84 487.5-941.67-75-237.5-258.34-416.67-487.5-491.67z" fill="#fff"/>
-            </svg>
-            
-            {:else if $selectedMint == "SOL"}
-                <img src={solLogo} class="w-11" />
-            {:else if $selectedMint == "BONK"}
-                <img src={bonkLogo} class="w-11" />
-            {:else if $selectedMint == "MVC"}
-                <img src={mvcLogo} class="w-11" />
-            {:else if $selectedMint == "RAIN"}
-                <img src={rainLogo} class="w-11" />
-            {:else if $selectedMint == "DUST"}
-                <img src={dustLogo} class="w-11" />
-            {:else if $selectedMint == "FOXY"}
-                <img src={foxyLogo} class="w-11" />
-            {/if}
+
+                <div class="dropdown-container">
+                    <button on:click={toggleDropdown} class="button-icon">
+                      <img class="w-11 img-icon" src={selectedLogo} alt="Selected Mint Image" />
+                    </button>
+                    <div class="custom-dropdown" style="display: {showDropdown ? 'block' : 'none'}">
+                      {#each $mints as mint}
+                        <div class="dropdown-item" on:click={() => selectMint(mint)}>
+                          <img class="dropdown-item-image" src={mint.img} alt={mint.name} />
+                          <span class="dropdown-item-name text-black">{mint.name}</span>
+                        </div>
+                      {/each}
+                    </div>
+                  </div>
+                  <div class="overlay" style="display: {showDropdown ? 'block' : 'none'}"></div>
             <input bind:value={$pmtAmt} class="w-60 h-fit rounded-lg ml-4 justify-center text-3xl text-center input border-[#808080] w-full max-w-lg text-[var(--background-color)] placeholder:text-2xl"  placeholder="Montant en ${$selectedMint}" />
         </div>
         </div>
