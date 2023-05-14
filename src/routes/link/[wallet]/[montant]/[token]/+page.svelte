@@ -27,10 +27,16 @@ let sol_rpc = process.env.SOLANA_RPC ? process.env.SOLANA_RPC : "https://solana-
 const reference = web3.Keypair.generate().publicKey;
 export let data;
 console.log("data", data);
-let walletAddress : web3.PublicKey | null= null;
+let walletAddress: web3.PublicKey | null = null;
 let amount = 0;
-let token : string | null = null;
+let token: string | null = null;
 let url: string = "";
+let currentMint: {
+    name: string,
+    mint: string,
+    img: string
+} [] = [];
+let splToken: web3.PublicKey | null = null;
 
 onMount(async () => {
     url = window.location.href;
@@ -38,6 +44,9 @@ onMount(async () => {
     let wallet = urlParts[urlParts.length - 3];
     amount = Number(urlParts[urlParts.length - 2]);
     token = urlParts[urlParts.length - 1];
+
+    currentMint = $mints.filter(item => item.name == token)
+    splToken = new web3.PublicKey(currentMint[0].mint);
 
     console.log(wallet); // "G6CQw1w5FkcmMCSxf4NNZYLRXMbx355d5pZXqrcsdiZV"
     console.log(amount); // "2"
@@ -47,24 +56,18 @@ onMount(async () => {
 })
 
 async function goPay() {
-    let currentMint = $mints.filter(item => item.name == token)
-    let splToken = new web3.PublicKey(currentMint[0].mint);
 
-    let urlToPay = "solana:"
-        + walletAddress
-        + "?amount="
-        + amount
-        + "&spl-token="
-        + splToken
-        + "&reference=" 
-        + reference
-        + "&label=paiement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+paiement+%21";
+    let urlToPay = "solana:" +
+        walletAddress +
+        "?amount=" +
+        amount +
+        "&spl-token=" +
+        splToken +
+        "&reference=" +
+        reference +
+        "&label=Paiement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+paiement+%21";
 
-    goto(urlToPay, {
-        state: {
-            foo: 'bar'
-        }
-    });
+    goto(urlToPay);
 }
 </script>
 
@@ -73,12 +76,18 @@ async function goPay() {
         <h1 class="sm:pt-3 font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--primary-color)]">
             {$storeName}</h1>
     </div>
-    <p>HELLO</p>
-    <p class="text-xs">url1 -> {url}</p>
-    <p>amount -> {amount}</p>
-    <p>walletAddress -> {walletAddress}</p>
-    <p>token -> {token}</p>
-    <div class="grid grid-flow-row justify-center pt-4 pb-16">
+    <div class="grid grid-flow-row justify-center gap-3">
+        <div class="self-center flex items-center justify-center">
+            {#if amount && currentMint.length > 0 && currentMint[0].name}
+            <span class="flex-shrink-0 flex justify-center font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--secondary-color)]">{ amount }</span>
+            <span class="flex-shrink-0 pl-3 flex justify-center font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--secondary-color)]">{currentMint[0].name }</span>
+            <span class="flex-shrink-0 pl-3 flex items-center justify-center">
+                <img src={currentMint[0].img } class="w-11" />
+            </span>
+            {/if}
+        </div>
+    </div>
+    <div class="grid grid-flow-row justify-center pt-4 pb-40">
         <div class="indicator justify-items-center place-self-center gap-10">
             <div class="">
                 <button on:click={goPay} class="btn normal-case btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 ">
