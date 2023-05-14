@@ -18,18 +18,15 @@ import {
     successArray,
     mints,
     selectedMint
-} from '../stores.js';
+} from '../../stores.js';
 import * as KioskBoard from 'kioskboard';
-import englishKeypbad from "../../keyboards/kioskboard-keys-english.json"
+import englishKeypbad from "../../../keyboards/kioskboard-keys-english.json"
 import {
     Focus
 } from "focus-svelte";
 import {
     goto
 } from '$app/navigation';
-import BigNumber from 'bignumber.js';
-import InlineSVG from 'svelte-inline-svg'
-import card_svg from './card.svg'
 
 let sol_rpc = process.env.SOLANA_RPC ? process.env.SOLANA_RPC : "https://solana-mainnet.g.alchemy.com/v2/WGBoK0YbGQZUASSAYCbCb1MNvP_oUwIu";
 let connection = new web3.Connection(sol_rpc);
