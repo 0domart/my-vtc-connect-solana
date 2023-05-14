@@ -1,0 +1,91 @@
+<script lang="ts">
+import {
+    onMount,
+    onDestroy,
+} from "svelte";
+import * as web3 from '@solana/web3.js';
+import {
+    createQR,
+    encodeURL,
+    findReference,
+    FindReferenceError
+} from "@solana/pay"
+import {
+    storeName,
+    publicKey,
+    pmtAmt,
+    mostRecentTxn,
+    successArray,
+    mints,
+    selectedMint
+} from '../../../../stores.js';
+import {
+    goto
+} from '$app/navigation';
+
+let sol_rpc = process.env.SOLANA_RPC ? process.env.SOLANA_RPC : "https://solana-mainnet.g.alchemy.com/v2/WGBoK0YbGQZUASSAYCbCb1MNvP_oUwIu";
+const reference = web3.Keypair.generate().publicKey;
+export let data;
+console.log("data", data);
+let walletAddress : web3.PublicKey | null= null;
+let amount = 0;
+let token : string | null = null;
+let url: string = "";
+
+onMount(async () => {
+    url = window.location.href;
+    const urlParts = url.split('/');
+    let wallet = urlParts[urlParts.length - 3];
+    amount = Number(urlParts[urlParts.length - 2]);
+    token = urlParts[urlParts.length - 1];
+
+    console.log(wallet); // "G6CQw1w5FkcmMCSxf4NNZYLRXMbx355d5pZXqrcsdiZV"
+    console.log(amount); // "2"
+    console.log(token); // "USDC"
+
+    walletAddress = new web3.PublicKey(wallet)
+})
+
+async function goPay() {
+    let currentMint = $mints.filter(item => item.name == token)
+    let splToken = new web3.PublicKey(currentMint[0].mint);
+
+    let urlToPay = "solana:"
+        + walletAddress
+        + "?amount="
+        + amount
+        + "&spl-token="
+        + splToken
+        + "&reference=" 
+        + reference
+        + "&label=paiement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+paiement+%21";
+
+    goto(urlToPay, {
+        state: {
+            foo: 'bar'
+        }
+    });
+}
+</script>
+
+<div class="grid grid-flow-row justify-center gap-4">
+    <div class="grid grid-flow-row justify-center pt-2 gap-3">
+        <h1 class="sm:pt-3 font-greycliffbold text-4xl text-center text-transparent bg-clip-text bg-[var(--primary-color)]">
+            {$storeName}</h1>
+    </div>
+    <p>HELLO</p>
+    <p class="text-xs">url1 -> {url}</p>
+    <p>amount -> {amount}</p>
+    <p>walletAddress -> {walletAddress}</p>
+    <p>token -> {token}</p>
+    <div class="grid grid-flow-row justify-center pt-4 pb-16">
+        <div class="indicator justify-items-center place-self-center gap-10">
+            <div class="">
+                <button on:click={goPay} class="btn normal-case btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 ">
+                    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13h-1v4.75c0 .413.337.75.75.75s.75-.337.75-.75V7zm0 6.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5z" />
+                </svg>
+                <span class="pl-2">Payer</span></button>
+            </div>
+        </div>
+    </div>
+</div>
