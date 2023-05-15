@@ -42,9 +42,6 @@ import mvcLogo from "../../lib/images/mvcLogo.png"
 import rainLogo from "../../lib/images/rainLogo.png"
 import foxyLogo from "../../lib/images/foxyLogo.webp"
 import mixpanel from 'mixpanel-browser';
-import bs58 from "bs58";
-import * as Linking from "expo-linking";
-import nacl from "tweetnacl";
 
 let cnx;
 let keyboardRef = null;
@@ -76,84 +73,6 @@ let session = "";
 const unique = (value, index, self) => {
     return self.indexOf(value) === index
 }
-
-const onSignAndSendTransactionRedirectLink = Linking.createURL("onSignAndSendTransaction");
-const onConnectRedirectLink = Linking.createURL("onConnect");
-const buildUrl = (path: string, params: URLSearchParams) =>
-  `https://phantom.app/ul/v1/${path}?${params.toString()}`;
-  
-  /*
-const connect = async () => {
-    if(recipient != null){
-    const params = new URLSearchParams({
-      dapp_encryption_public_key: bs58.encode(recipient.toBase58()),
-      cluster: "mainnet-beta",
-      app_url: "https://phantom.app",
-      redirect_link: onConnectRedirectLink,
-    });
-
-    const url = buildUrl("connect", params);
-    Linking.openURL(url);
-    }
-  };*/
-  
-const createTransferTransaction = async () => {
-    if (!recipient) throw new Error("missing public key from user");
-    let transaction = new Transaction().add(
-      SystemProgram.transfer({
-        fromPubkey: recipient,
-        toPubkey: recipient,
-        lamports: 100,
-      })
-    );
-    transaction.feePayer = recipient;
-    console.log("Getting recent blockhash");
-    const anyTransaction: any = transaction;
-    anyTransaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-    console.log("Fin create transfer transaction")
-    return transaction;
-  };
-
-  const encryptPayload = (payload: any, sharedSecret?: Uint8Array) => {
-  if (!sharedSecret) throw new Error("missing shared secret");
-
-  const nonce = nacl.randomBytes(24);
-
-  const encryptedPayload = nacl.box.after(
-    Buffer.from(JSON.stringify(payload)),
-    nonce,
-    sharedSecret
-  );
-
-  return [nonce, encryptedPayload];
-};
-
-const signAndSendTransaction = async () => {
-    const transaction = await createTransferTransaction();
-
-    const serializedTransaction = transaction.serialize({
-      requireAllSignatures: false,
-    });
-
-    const payload = {
-      session,
-      transaction: bs58.encode(serializedTransaction),
-    };
-    const [nonce, encryptedPayload] = encryptPayload(payload, new Uint8Array());
-    let params: URLSearchParams = new URLSearchParams({});
-    if(recipient != null){
-        params = new URLSearchParams({
-        dapp_encryption_public_key: bs58.encode(recipient.toBuffer()),
-        nonce: bs58.encode(nonce),
-        redirect_link: onSignAndSendTransactionRedirectLink,
-        payload: bs58.encode(encryptedPayload),
-        });
-    }
-
-    console.log("Sending transaction...");
-    const url = buildUrl("signAndSendTransaction", params);
-    Linking.openURL(url);
-  };
 
 onMount(async () => {
 
@@ -272,8 +191,6 @@ onDestroy(async () => {
     // <svg width=512 height=512 viewBox="-1 -1 2 2" bind:this={qrCode}/>
 })
 async function cancel() {
-    signAndSendTransaction();
-    
     clearTimeout(timeout1);
         clearTimeout(timeout2);
         clearTimeout(timeout3);
