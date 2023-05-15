@@ -137,7 +137,6 @@ onMount(async () => {
         }) : null;
         }
     }
-    console.log("url", url);
 
     let size = 330
     const mobileMediaQuery = window.matchMedia("(max-width: 850px)");
