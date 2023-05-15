@@ -42,16 +42,8 @@ import mvcLogo from "../../lib/images/mvcLogo.png"
 import rainLogo from "../../lib/images/rainLogo.png"
 import foxyLogo from "../../lib/images/foxyLogo.webp"
 import mixpanel from 'mixpanel-browser';
-import bs58 from "bs58";
-import * as Linking from "expo-linking";
-import nacl from "tweetnacl";
 
-let cnx;
-let keyboardRef = null;
 let qrCode
-let qrCode2
-let qrRef = null
-let svg_container;
 let txnConfirmed = false
 let duration = 5000
 let timeout1: string | number | NodeJS.Timeout | undefined;
@@ -72,90 +64,31 @@ const message = 'Merci pour votre paiement !';
 const memo = 'solana.pay';
 let amount = BigNumber(0);
 let session = "";
+let isShareSupported = false;
+let url = 
 
 const unique = (value, index, self) => {
     return self.indexOf(value) === index
 }
 
-const onSignAndSendTransactionRedirectLink = Linking.createURL("onSignAndSendTransaction");
-const onConnectRedirectLink = Linking.createURL("onConnect");
-const buildUrl = (path: string, params: URLSearchParams) =>
-  `https://phantom.app/ul/v1/${path}?${params.toString()}`;
-  
-  /*
-const connect = async () => {
-    if(recipient != null){
-    const params = new URLSearchParams({
-      dapp_encryption_public_key: bs58.encode(recipient.toBase58()),
-      cluster: "mainnet-beta",
-      app_url: "https://phantom.app",
-      redirect_link: onConnectRedirectLink,
-    });
-
-    const url = buildUrl("connect", params);
-    Linking.openURL(url);
+async function handleShare() {
+    try {
+      await navigator.share({
+        title: 'My VTC Connect',
+        text: 'Voici le lien de paiement',
+        url: "https://phantom.app/ul/browse/" + recipient + "/" + amount + "/" + splToken
+      });
+      console.log('Shared successfully!');
+    } catch (error) {
+      console.error('Error sharing:', error);
     }
-  };*/
-  
-const createTransferTransaction = async () => {
-    if (!recipient) throw new Error("missing public key from user");
-    let transaction = new Transaction().add(
-      SystemProgram.transfer({
-        fromPubkey: recipient,
-        toPubkey: recipient,
-        lamports: 100,
-      })
-    );
-    transaction.feePayer = recipient;
-    console.log("Getting recent blockhash");
-    const anyTransaction: any = transaction;
-    anyTransaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-    console.log("Fin create transfer transaction")
-    return transaction;
-  };
-
-  const encryptPayload = (payload: any, sharedSecret?: Uint8Array) => {
-  if (!sharedSecret) throw new Error("missing shared secret");
-
-  const nonce = nacl.randomBytes(24);
-
-  const encryptedPayload = nacl.box.after(
-    Buffer.from(JSON.stringify(payload)),
-    nonce,
-    sharedSecret
-  );
-
-  return [nonce, encryptedPayload];
-};
-
-const signAndSendTransaction = async () => {
-    const transaction = await createTransferTransaction();
-
-    const serializedTransaction = transaction.serialize({
-      requireAllSignatures: false,
-    });
-
-    const payload = {
-      session,
-      transaction: bs58.encode(serializedTransaction),
-    };
-    const [nonce, encryptedPayload] = encryptPayload(payload, new Uint8Array());
-    let params: URLSearchParams = new URLSearchParams({});
-    if(recipient != null){
-        params = new URLSearchParams({
-        dapp_encryption_public_key: bs58.encode(recipient.toBuffer()),
-        nonce: bs58.encode(nonce),
-        redirect_link: onSignAndSendTransactionRedirectLink,
-        payload: bs58.encode(encryptedPayload),
-        });
-    }
-
-    console.log("Sending transaction...");
-    const url = buildUrl("signAndSendTransaction", params);
-    Linking.openURL(url);
-  };
+  }
 
 onMount(async () => {
+
+    if (typeof navigator !== 'undefined' && 'share' in navigator) {
+        isShareSupported = true;
+    }
 
     let publicKeyStore = localStorage.getItem('publicKey');
     let storeNameStore = localStorage.getItem('storeName');
@@ -465,11 +398,19 @@ async function checkTransactionDone() {
                         <span class="pl-2">{txnConfirmed? "Retour" : "Annuler"}</span></button>
                     </div>
                     <div class="grid grid-flow-row justify-center items-center pb-4">
-                        {#if false}
+                        {#if !txnConfirmed}
                         <button on:click={copyLink} class="btn normal-case w-80 btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 ">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8 6H4a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-4M8 2h12a2 2 0 012 2v12a2 2 0 01-2 2H8a2 2 0 01-2-2V4a2 2 0 012-2z" />
                         </svg>
                         <span class="pl-2">Copier le lien</span></button>
+                        {/if}
+                    </div>
+                    <div class="grid grid-flow-row justify-center items-center pb-4">
+                        {#if isShareSupported}
+                        <button on:click={copyLink} class="btn normal-case w-80 btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 ">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 6H4a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-4M8 2h12a2 2 0 012 2v12a2 2 0 01-2 2H8a2 2 0 01-2-2V4a2 2 0 012-2z" />
+                        </svg>
+                        <span class="pl-2">Partager le lien</span></button>
                         {/if}
                     </div>
                     <div class="grid grid-flow-row justify-center items-center pb-2 md:pb-16">
