@@ -65,7 +65,6 @@ const memo = 'solana.pay';
 let amount = BigNumber(0);
 let session = "";
 let isShareSupported = false;
-let url = 
 
 const unique = (value, index, self) => {
     return self.indexOf(value) === index
