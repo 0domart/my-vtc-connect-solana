@@ -73,8 +73,8 @@ const unique = (value, index, self) => {
 async function handleShare() {
     try {
       await navigator.share({
-        title: 'My VTC Connect',
-        text: 'Voici le lien de paiement',
+        title: '',
+        text: 'Voici le lien de paiement : ',
         url: "https://phantom.app/ul/browse/" + recipient + "/" + amount + "/" + splToken
       });
       console.log('Shared successfully!');
@@ -406,8 +406,7 @@ async function checkTransactionDone() {
                     <div class="grid grid-flow-row justify-center items-center pb-4">
                         {#if isShareSupported}
                         <button on:click={handleShare} class="btn normal-case w-80 btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 ">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 6H4a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-4M8 2h12a2 2 0 012 2v12a2 2 0 01-2 2H8a2 2 0 01-2-2V4a2 2 0 012-2z" />
-                        </svg>
+                            <path fill="none" d="M0 0h24v24H0z"/> <path d="M13 14h-2a8.999 8.999 0 0 0-7.968 4.81A10.136 10.136 0 0 1 3 18C3 12.477 7.477 8 13 8V2.5L23.5 11 13 19.5V14zm-2-2h4v3.308L20.321 11 15 6.692V10h-2a7.982 7.982 0 0 0-6.057 2.773A10.988 10.988 0 0 1 11 12z"/>                        </svg>
                         <span class="pl-2">Partager le lien</span></button>
                         {/if}
                     </div>
