@@ -405,7 +405,7 @@ async function checkTransactionDone() {
                     </div>
                     <div class="grid grid-flow-row justify-center items-center pb-4">
                         {#if isShareSupported}
-                        <button on:click={copyLink} class="btn normal-case w-80 btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 ">
+                        <button on:click={handleShare} class="btn normal-case w-80 btn-lg bg-[var(--primary-color)] text-[var(--secondary-color)]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 ">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8 6H4a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-4M8 2h12a2 2 0 012 2v12a2 2 0 01-2 2H8a2 2 0 01-2-2V4a2 2 0 012-2z" />
                         </svg>
                         <span class="pl-2">Partager le lien</span></button>
