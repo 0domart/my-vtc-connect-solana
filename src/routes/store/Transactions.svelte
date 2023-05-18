@@ -58,7 +58,7 @@ async function reset() {
                     {/each}
                     {#if $successArray.length === 0}
                     <tr>
-                        <td colspan="3" class="text-center">Pas de transaction pour le moment</td>
+                        <td colspan="3" class="text-black text-center">Pas de transaction pour le moment</td>
                     </tr>
                     {/if}
                 </tbody>

@@ -36,8 +36,7 @@
       document.documentElement.style.setProperty('--background-color', "#f2f3f3"); // #000000 ou white
       document.documentElement.style.color = '#f2f3f3';
       companyLogo.set("https://myvtcconnect.com/images/logo/logo_new_black.svg");*/
-
-
+      
       companyName.set("MY VTC CONNECT");
       companyStartYear.set("2017");
       slogan.set("Le digital au service du confort !");
