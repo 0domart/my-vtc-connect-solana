@@ -105,7 +105,7 @@ function limitDecimals(event: Event | undefined, maxDecimals: number | undefined
         </div>
     </div>
     <div class="grid grid-flow-row justify-center pt-4 pb-40">
-        <div class="indicator justify-items-center place-self-center gap-10">
+        <div class="indicator justify-items-center place-self-center gap-10 text-[var(--secondary-color)]">
             <div class="">
                 <span class="pr-4 text-lg">Ajouter un pourboire ?</span>
                 <input on:input={() => limitDecimals(event, 7)} type="number" min="0" step="0.25" bind:value={tipAmount} class="border text-center border-gray-300 rounded px-3 py-2 w-28 text-lg text-black" placeholder="Ajouter un pourboire" />
