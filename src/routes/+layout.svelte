@@ -4,8 +4,13 @@
     import { fullScreen } from './stores';
     import Fullscreen from "svelte-fullscreen";
     import logoEntreprise from "../lib/images/logo_mvc.svg";
-
     import mixpanel from 'mixpanel-browser';
+    import {onMount} from "svelte";
+    import {
+    companyName,
+    } from './stores.js';
+
+    let isLoaded = false;
 
     // Replace YOUR_TOKEN with your Project Token
     mixpanel.init('0daa20bc6454804716cd560d090453a0', {debug: true}); 
@@ -14,7 +19,27 @@
     // Include a property about the signup, like the Signup Type
     mixpanel.track('Arrivée sur la page');
 
+    const fetchData = async () => {
+    try {
+      const response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+      const data = await response.json();
+      document.documentElement.style.setProperty('--primary-color', "#deb320");
+      document.documentElement.style.setProperty('--secondary-color', "#f2f3f3");
+      document.documentElement.style.setProperty('--background-color', "#000000");
+      companyName.set("MY VTC CONNECT");
+
+      isLoaded = true;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  onMount(async () => {
+    await fetchData();
+  })
+
   </script>
+  {#if isLoaded}
   <Fullscreen let:onRequest let:onExit>
     <div style="background-color: var(--background-color);" class="h-fit min-h-screen">
       {#if !$fullScreen}
@@ -55,12 +80,13 @@
                   </defs>
                   </svg>
           </div>
-            <span class="text-sm text-white">MY VTC CONNECT © 2017 - 2023 Tous droits réservés</span>
+            <span class="text-sm text-white">{$companyName} © 2017 - 2023 Tous droits réservés</span>
           </div>
         </footer>
       </div>
       </div>     
    
   </Fullscreen>
+  {/if}
 
  

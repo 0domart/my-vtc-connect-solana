@@ -45,17 +45,20 @@
 </script>
 <div>
     <h1 class="card-title pt-5 justify-center text-center text-md font-greycliffbold -mt-5 pb-5 text-transparent bg-clip-text bg-[var(--primary-color)]">Créez un terminal de paiement instantanément !</h1>
-    <div class="grid grid-flow-row justify-center pt-5 gap-3 w-screen pb-12">
-        <div class="indicator justify-items-center place-self-center w-screen">
+    <div class="grid grid-flow-row justify-center pt-5 gap-3 w-full pb-12">
+        <div class="indicator justify-items-center place-self-center w-full">
             <div class="card bg-[var(--secondary-color)] shadow border mx-auto w-3/5 min-w-fit">
                 <div class="card-body px-6 pb-4 w-full mx-auto justify-center">
-                    
                     <p class="text-md -mt-3 text-center font-greycliffbold text-transparent bg-clip-text bg-[var(--background-color)]">Entrez vos coordonnées marchandes</p>
                     <div class="flex flex-col pt-4 space-y-3 w-full mx-auto justify-center items-center">
                         <input bind:value={$storeName} type="text" placeholder="Nom du magasin, ex : MY VTC Connect" class="text-center input input-sm border-[#808080] w-full max-w-lg" style="color: black;"/> 
                         <input bind:value={$publicKey} type="text" placeholder="Adresse du portefeuille marchand (clé publique)" class="text-center input input-sm border-[#808080] w-full max-w-lg" style="color: black;"/> 
+                        <p class="text-center text-sm text-[var(--background-color)] mt-2">
+                            Besoin d'un portefeuille Solana ? 
+                            <a href="https://phantom.app/download" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">Créez-le dès maintenant sur Phantom !</a>
+                        </p>
                     </div>
-                      
+                    
                       {#if invalidKey}
                         <span class="text-center text-sm text-error">Clé Solana invalide - veuillez entrer une adresse de portefeuille valide.</span>
                     {/if}

@@ -136,7 +136,7 @@
                     </div>
                   </div>
                   <div class="overlay" style="display: {showDropdown ? 'block' : 'none'}"></div>
-            <input bind:value={$pmtAmt} type="number"  class="w-60 h-fit rounded-lg ml-4 justify-center text-3xl text-center input border-[#808080] w-full max-w-lg text-[var(--background-color)] placeholder:text-2xl"  placeholder="Montant en ${$selectedMint}" />
+            <input bind:value={$pmtAmt} min="0" step="1" type="number"  class="w-60 h-fit rounded-lg ml-4 justify-center text-3xl text-center input border-[#808080] w-full max-w-lg text-[var(--background-color)] placeholder:text-2xl"  placeholder="Montant en ${$selectedMint}" />
         </div>
         </div>
 

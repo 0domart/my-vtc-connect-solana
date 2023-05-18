@@ -14,6 +14,9 @@ export const mostRecentTxn = writable("");
 export const fullScreen = writable(false);
 export let successArray = writable([]);
 
+
+export const companyName = writable("");
+
 export const mints = writable([
     {name:"USDC", mint:"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", img:usdcLogo},
     {name:"SOL", mint:"ASTkbpe5ckW1mx6WDLE9zPScWsYjSh6h5zQ89UYoUQ7D", img:solLogo},

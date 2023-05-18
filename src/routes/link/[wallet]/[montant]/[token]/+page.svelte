@@ -26,7 +26,6 @@ import {
 import Decimal from 'decimal.js';
 
 let sol_rpc = process.env.SOLANA_RPC ? process.env.SOLANA_RPC : "https://solana-mainnet.g.alchemy.com/v2/WGBoK0YbGQZUASSAYCbCb1MNvP_oUwIu";
-const reference = web3.Keypair.generate().publicKey;
 export let data;
 console.log("data", data);
 let walletAddress: web3.PublicKey | null = null;
@@ -66,8 +65,6 @@ async function goPay() {
         somme +
         "&spl-token=" +
         splToken +
-        "&reference=" +
-        reference +
         "&label=Paiement+%C3%A0+MY+VTC+Connect&message=Merci+pour+votre+paiement+%21";
 
     goto(urlToPay);
