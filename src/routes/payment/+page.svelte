@@ -61,7 +61,7 @@
         try {
             await navigator.share({
                 title: '',
-                text: 'Voici le lien de paiement : ',
+                text: 'Voici le lien de paiement : \n',
                 url: "https://phantom.app/ul/browse/https://solana.myvtcconnect.com/link/" + recipient + "/" + amount + "/" + $selectedMint
             });
         } catch (error) {
