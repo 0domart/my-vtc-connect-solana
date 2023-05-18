@@ -19,69 +19,6 @@
         
     }
 }
-/*
-.dropdown-container {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .dropdown-button {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
-  
-  .dropdown-icon {
-    width: 30px;
-    height: 30px;
-  }
-  
-  .custom-dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 200px;
-    background-color: white;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    overflow: auto;
-    z-index: 9999;
-  }
-
-  .dropdown-container button {
-    display: flex;
-    align-items: center;
-  }
-  
-  .dropdown-container img {
-    display: block;
-    margin: auto;
-  }
-  
-  .dropdown-item:hover {
-    background-color: #f5f5f5;
-  }
-  
-  .dropdown-item {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    gap:8px;
-    cursor: pointer;
-    justify-content: flex-start;
-  }
-  
-  .dropdown-item img {
-    height: 30px;
-    width: fit-content;
-  }
-  
-  .dropdown-item-name {
-    font-size: 14px;
-    white-space: nowrap;
-  }*/
 
   .dropdown-container {
     position: relative;

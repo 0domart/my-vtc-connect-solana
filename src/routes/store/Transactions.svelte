@@ -34,26 +34,26 @@ async function reset() {
 }
 </script>
 
-<div>
-    <div class="card bg-[var(--secondary-color)] border">
-        <div class="overflow-x-auto text-[var(--background-color)]">
+<div class="">
+    <div class="card border text-[var(--background-color)]">
+        <div class="overflow-x-auto">
             <table class="table table-compact w-full min-h-[200px]">
-                <thead>
+                <thead class="bg-[var(--secondary-color)]">
                     <tr>
-                        <th>Date</th>
-                        <th class="text-center">Tx ID</th>
-                        <th class="text-right">Montant</th>
+                        <th class="bg-[var(--secondary-color)]">Date</th>
+                        <th class="bg-[var(--secondary-color)] text-center">Tx ID</th>
+                        <th class="bg-[var(--secondary-color)] text-right">Montant</th>
                     </tr>
                 </thead>
                 <tbody>
                     {#each $successArray.reverse() as item, i}
                     <tr>
-                        <td>{dayjs.unix(item.timestamp).format("MM-DD HH:mm:ss")}</td>
-                        <td class="text-center">
+                        <td class="bg-[var(--secondary-color)]">{dayjs.unix(item.timestamp).format("MM-DD HH:mm:ss")}</td>
+                        <td class="bg-[var(--secondary-color)] text-center">
                             <a class="hover:underline hover:decoration-primary" href="https://solscan.io/tx/{item.txid}" target="_blank">
                                 {item.txid.substring(0,20)}...{item.txid.substring(68,88)}</a>
                         </td>
-                        <td class="text-right">{item.uiAmount} {item.uiToken}</td>
+                        <td class="bg-[var(--secondary-color)] text-right">{item.uiAmount} {item.uiToken}</td>
                     </tr>
                     {/each}
                     {#if $successArray.length === 0}

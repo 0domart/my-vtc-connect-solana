@@ -117,7 +117,7 @@
         //console.log(parseFloat( $pmtAmt ).toLocaleString("en", { maximumFractionDigits: 4 }))
     }
 </script>
-    <div class="card w-96 h-max w-min-fit bg-[var(--secondary-color)] shadow border">
+    <div class="card w-96 h-max w-min-fit bg-[var(--secondary-color)] shadow border py-2 px-1">
         <div class="card-body px-6 pb-4 text-center">
             <h1 class="align-center justify-center text-xl font-greycliffbold -mt-5 pb-1 text-transparent bg-clip-text bg-[var(--background-color)]">Entrez le montant à payer</h1>
             <div class="flex items-center justify-center">
@@ -136,7 +136,7 @@
                     </div>
                   </div>
                   <div class="overlay" style="display: {showDropdown ? 'block' : 'none'}"></div>
-            <input bind:value={$pmtAmt} min="0" step="1" type="number"  class="w-60 h-fit rounded-lg ml-4 justify-center text-3xl text-center input border-[#808080] w-full max-w-lg text-[var(--background-color)] placeholder:text-2xl"  placeholder="Montant en ${$selectedMint}" />
+            <input bind:value={$pmtAmt} min="0" step="1" type="number" class="w-60 h-fit rounded-lg ml-4 justify-center text-3xl text-center input border-[#808080] w-full text-black max-w-lg placeholder:text-2xl"  placeholder="Montant en ${$selectedMint}" />
         </div>
         </div>
 

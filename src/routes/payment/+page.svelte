@@ -47,7 +47,7 @@
         img: string
     } [] = [];
     let splToken: web3.PublicKey | null = null;
-    const reference = web3.Keypair.generate().publicKey;
+    let reference = web3.Keypair.generate().publicKey;
     let storeText = $storeName ? $storeName : "Boutique"
     let label = 'Paiement à ' + storeText;
     let recipient: web3.PublicKey | null = null;
@@ -58,11 +58,13 @@
     let urlSource = "";
     
     async function handleShare() {
+        let urlLink = "https://phantom.app/ul/browse/https://solana.myvtcconnect.com/link/" + recipient + "/" + amount + "/" + $selectedMint;
+        copyTextToClipboard(urlLink);
         try {
             await navigator.share({
                 title: '',
                 text: 'Voici le lien de paiement : \n',
-                url: "https://phantom.app/ul/browse/https://solana.myvtcconnect.com/link/" + recipient + "/" + amount + "/" + $selectedMint
+                url: urlLink
             });
         } catch (error) {
             console.error('Error sharing:', error);
@@ -84,6 +86,7 @@
         let mostRecentTxnStore = localStorage.getItem('mostRecentTxn');
         let pmtAmtStore = localStorage.getItem('pmtAmt');
         let selectedMintStore = localStorage.getItem('selectedMint');
+        let referenceStore = localStorage.getItem('reference');
     
         if (pmtAmtStore !== null) {
             pmtAmt.set(pmtAmtStore);
@@ -110,6 +113,11 @@
         if (selectedMintStore !== null) {
             selectedMint.set(selectedMintStore);
         }
+
+        if (referenceStore !== null) {
+            reference = new web3.PublicKey(referenceStore);
+        }
+        else localStorage.setItem("reference", reference.toString());
     
         recipient = new web3.PublicKey($publicKey)
         currentMint = $mints.filter(item => item.name == $selectedMint)
@@ -148,16 +156,15 @@
         }
     
         try {
-            qrCode = createQR(url, size, 'white');
+            qrCode = createQR(url, size, "white", "black");
             qrCode._options.image = mvcLogo;
-            qrCode._options.cornersDotOptions.color = "#deb320";
-            qrCode._options.cornersSquareOptions.color = "#deb320";
-            // qrCode2 = qrCode._svg.innerHTML
+            qrCode._options.imageOptions.imageSize = 0.15;
+            qrCode._options.backgroundOptions.round = 0.05;
+            qrCode._options.cornersDotOptions.color = document.documentElement.style.getPropertyValue("--primary-color");
+            qrCode._options.cornersSquareOptions.color = document.documentElement.style.getPropertyValue("--primary-color");
             const element = document.getElementById('qr-code');
             qrCode.append(element);
-            //()
         } catch (e) {
-            // qrCode = null
             qrCode._svg = ""
             console.log("error making QR ", e)
     
@@ -182,17 +189,11 @@
             clearInterval(interval)
         }, 1000000);
     
-        startInterval();
-    
-        //qrCode2 =decodeURIComponent(qrCode.toString()).replace('data:image/svg+xml,', '')
-    
-    })
-    onDestroy(async () => {
-        //document.body.setAttribute('tabindex', '-1');
-        // <img src={qrCode._qr.createDataURL()}/>
-        // <svg width=512 height=512 viewBox="-1 -1 2 2" bind:this={qrCode}/>
+        startInterval();    
     })
     async function cancel() {
+
+        localStorage.removeItem("reference");
     
         clearTimeout(timeout1);
         clearTimeout(timeout2);
@@ -222,11 +223,6 @@
     
         // Remove the temporary textarea
         document.body.removeChild(textarea);
-    }
-    
-    function copyLink() {
-        let urlLink = "https://phantom.app/ul/browse/https://solana.myvtcconnect.com/link/" + recipient + "/" + amount + "/" + $selectedMint;
-        copyTextToClipboard(urlLink);
     }
     
     function refresh() {

@@ -16,6 +16,9 @@ export let successArray = writable([]);
 
 
 export const companyName = writable("");
+export const companyLogo = writable("");
+export const companyStartYear = writable("");
+export const slogan = writable("");
 
 export const mints = writable([
     {name:"USDC", mint:"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", img:usdcLogo},

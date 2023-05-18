@@ -1,13 +1,14 @@
 <script lang='ts'>
     import { onMount } from "svelte";
     import * as web3 from '@solana/web3.js';
-    import { storeName, publicKey } from './stores';
+    import { storeName, publicKey, companyName } from './stores';
     import { goto } from '$app/navigation';
     import logoEntreprise from "../lib/images/logo_mvc.svg";
     import mixpanel from 'mixpanel-browser';
 
     let cnx;
     let invalidKey = false;
+    let placeholder = "Nom du magasin, ex : " + $companyName;
 
     onMount(async () => {
         let publicKeyStore = localStorage.getItem('publicKey');
@@ -51,7 +52,7 @@
                 <div class="card-body px-6 pb-4 w-full mx-auto justify-center">
                     <p class="text-md -mt-3 text-center font-greycliffbold text-transparent bg-clip-text bg-[var(--background-color)]">Entrez vos coordonnées marchandes</p>
                     <div class="flex flex-col pt-4 space-y-3 w-full mx-auto justify-center items-center">
-                        <input bind:value={$storeName} type="text" placeholder="Nom du magasin, ex : MY VTC Connect" class="text-center input input-sm border-[#808080] w-full max-w-lg" style="color: black;"/> 
+                        <input bind:value={$storeName} type="text" placeholder={placeholder} class="text-center input input-sm border-[#808080] w-full max-w-lg" style="color: black;"/> 
                         <input bind:value={$publicKey} type="text" placeholder="Adresse du portefeuille marchand (clé publique)" class="text-center input input-sm border-[#808080] w-full max-w-lg" style="color: black;"/> 
                         <p class="text-center text-sm text-[var(--background-color)] mt-2">
                             Besoin d'un portefeuille Solana ? 
